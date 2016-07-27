@@ -1,0 +1,7 @@
+﻿  源.cpp
+c:\users\m1821\documents\visual studio 2015\projects\poj1258\poj1258\源.cpp(55): warning C4101: “m”: 未引用的局部变量
+c:\users\m1821\documents\visual studio 2015\projects\poj1258\poj1258\源.cpp(55): warning C4101: “b”: 未引用的局部变量
+c:\users\m1821\documents\visual studio 2015\projects\poj1258\poj1258\源.cpp(55): warning C4101: “c”: 未引用的局部变量
+c:\users\m1821\documents\visual studio 2015\projects\poj1258\poj1258\源.cpp(55): warning C4101: “d”: 未引用的局部变量
+  poj1258.vcxproj -> C:\Users\m1821\Documents\Visual Studio 2015\Projects\poj1258\Debug\poj1258.exe
+  poj1258.vcxproj -> C:\Users\m1821\Documents\Visual Studio 2015\Projects\poj1258\Debug\poj1258.pdb (Partial PDB)

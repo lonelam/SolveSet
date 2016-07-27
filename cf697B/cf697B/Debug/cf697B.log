@@ -1,0 +1,7 @@
+﻿  源.cpp
+c:\users\m1821\documents\visual studio 2015\projects\cf697b\cf697b\源.cpp(40): warning C4018: “>=”: 有符号/无符号不匹配
+c:\users\m1821\documents\visual studio 2015\projects\cf697b\cf697b\源.cpp(45): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\m1821\documents\visual studio 2015\projects\cf697b\cf697b\源.cpp(50): warning C4018: “>=”: 有符号/无符号不匹配
+c:\users\m1821\documents\visual studio 2015\projects\cf697b\cf697b\源.cpp(53): warning C4018: “<”: 有符号/无符号不匹配
+  cf697B.vcxproj -> C:\Users\m1821\documents\visual studio 2015\Projects\cf697B\Debug\cf697B.exe
+  cf697B.vcxproj -> C:\Users\m1821\documents\visual studio 2015\Projects\cf697B\Debug\cf697B.pdb (Partial PDB)

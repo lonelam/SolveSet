@@ -1,0 +1,1 @@
+uva1599.exe < test1.in > test.out

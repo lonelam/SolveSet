@@ -1,0 +1,4 @@
+﻿  源.cpp
+c:\users\m1821\documents\visual studio 2015\projects\c727d\c727d\源.cpp(11): warning C4101: “tmp”: 未引用的局部变量
+  C727D.vcxproj -> C:\Users\m1821\Documents\Visual Studio 2015\Projects\C727D\Debug\C727D.exe
+  C727D.vcxproj -> C:\Users\m1821\Documents\Visual Studio 2015\Projects\C727D\Debug\C727D.pdb (Partial PDB)

@@ -1,0 +1,4 @@
+﻿  源.cpp
+c:\users\m1821\documents\visual studio 2015\projects\c727c\c727c\源.cpp(10): warning C4101: “n”: 未引用的局部变量
+  C727C.vcxproj -> C:\Users\m1821\Documents\Visual Studio 2015\Projects\C727C\Debug\C727C.exe
+  C727C.vcxproj -> C:\Users\m1821\Documents\Visual Studio 2015\Projects\C727C\Debug\C727C.pdb (Partial PDB)

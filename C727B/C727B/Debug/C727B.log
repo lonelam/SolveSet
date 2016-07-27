@@ -1,0 +1,4 @@
+﻿  源.cpp
+c:\users\m1821\documents\visual studio 2015\projects\c727b\c727b\源.cpp(9): warning C4101: “tcur”: 未引用的局部变量
+  C727B.vcxproj -> C:\Users\m1821\Documents\Visual Studio 2015\Projects\C727B\Debug\C727B.exe
+  C727B.vcxproj -> C:\Users\m1821\Documents\Visual Studio 2015\Projects\C727B\Debug\C727B.pdb (Partial PDB)

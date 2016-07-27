@@ -1,0 +1,5 @@
+﻿  源.cpp
+c:\users\m1821\documents\visual studio 2015\projects\poj1704\poj1704\源.cpp(9): warning C4101: “a”: 未引用的局部变量
+c:\users\m1821\documents\visual studio 2015\projects\poj1704\poj1704\源.cpp(9): warning C4101: “b”: 未引用的局部变量
+  poj1704.vcxproj -> C:\Users\m1821\Documents\Visual Studio 2015\Projects\poj1704\Debug\poj1704.exe
+  poj1704.vcxproj -> C:\Users\m1821\Documents\Visual Studio 2015\Projects\poj1704\Debug\poj1704.pdb (Partial PDB)

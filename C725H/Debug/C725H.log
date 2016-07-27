@@ -1,0 +1,4 @@
+﻿  源.cpp
+c:\codes\solveset\c725h\源.cpp(58): warning C4101: 'throwtmp': unreferenced local variable
+  C725H.vcxproj -> C:\Codes\SolveSet\C725H\Debug\C725H.exe
+  C725H.vcxproj -> C:\Codes\SolveSet\C725H\Debug\C725H.pdb (Partial PDB)
