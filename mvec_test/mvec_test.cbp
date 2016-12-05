@@ -31,6 +31,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="cool_vec.hpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="point.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

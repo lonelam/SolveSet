@@ -1,0 +1,1 @@
+C:\Codes\Tetris\Tetris\bin\Debug\Tetris.exe.config
