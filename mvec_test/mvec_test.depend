@@ -1,11 +1,12 @@
 # depslib dependency file v1.0
-1475041693 source:c:\codes\mvec_test\main.cpp
+1476082242 source:c:\codes\mvec_test\main.cpp
 	"cool_vec.hpp"
 
-1475041970 c:\codes\mvec_test\cool_vec.hpp
+1476084609 c:\codes\mvec_test\cool_vec.hpp
 	<initializer_list>
 	<vector>
 	<tuple>
 	<iostream>
+	<cstring>
 	<cmath>
 

@@ -1,0 +1,9 @@
+C:\Codes\replant_tetris\replant_tetris\bin\Debug\replant_tetris.exe.config
+C:\Codes\replant_tetris\replant_tetris\bin\Debug\replant_tetris.exe
+C:\Codes\replant_tetris\replant_tetris\bin\Debug\replant_tetris.pdb
+C:\Codes\replant_tetris\replant_tetris\obj\Debug\replant_tetris.csprojResolveAssemblyReference.cache
+C:\Codes\replant_tetris\replant_tetris\obj\Debug\replant_tetris.Form1.resources
+C:\Codes\replant_tetris\replant_tetris\obj\Debug\replant_tetris.Properties.Resources.resources
+C:\Codes\replant_tetris\replant_tetris\obj\Debug\replant_tetris.csproj.GenerateResource.Cache
+C:\Codes\replant_tetris\replant_tetris\obj\Debug\replant_tetris.exe
+C:\Codes\replant_tetris\replant_tetris\obj\Debug\replant_tetris.pdb
