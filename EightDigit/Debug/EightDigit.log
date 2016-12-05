@@ -1,3 +1,0 @@
-﻿  源.cpp
-c:\codes\solveset\eightdigit\源.cpp(42): error C3861: 'init_lookup_table': identifier not found
-c:\codes\solveset\eightdigit\源.cpp(63): error C3861: 'try_to_insert': identifier not found

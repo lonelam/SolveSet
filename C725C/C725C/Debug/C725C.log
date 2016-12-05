@@ -1,6 +1,0 @@
-﻿  源.cpp
-d:\codes\c725c\c725c\源.cpp(133): warning C4018: '<': signed/unsigned mismatch
-d:\codes\c725c\c725c\源.cpp(152): warning C4101: 'cnt': unreferenced local variable
-d:\codes\c725c\c725c\源.cpp(151): warning C4101: 'seq': unreferenced local variable
-  C725C.vcxproj -> D:\Codes\C725C\Debug\C725C.exe
-  C725C.vcxproj -> D:\Codes\C725C\Debug\C725C.pdb (Full PDB)
