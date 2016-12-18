@@ -16,12 +16,12 @@ using namespace std;
 
 int main()
 {
-
-	int n;
-	scanf("%d", &n);
-	for (int seg = 1; seg < n; seg <<= 1)
+	int a, b, c;
+	while (cin >> a >> b >> c)
 	{
-
+		int cnt = min({ a , b / 2, c / 4 });
+		cout << cnt * 7 << endl;
 	}
+
 	return 0;
 }

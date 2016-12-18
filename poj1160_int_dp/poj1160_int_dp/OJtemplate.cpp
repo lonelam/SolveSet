@@ -17,11 +17,5 @@ using namespace std;
 int main()
 {
 
-	int n;
-	scanf("%d", &n);
-	for (int seg = 1; seg < n; seg <<= 1)
-	{
-
-	}
 	return 0;
 }
