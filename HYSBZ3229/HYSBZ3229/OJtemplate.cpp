@@ -13,15 +13,29 @@
 #include<cstdlib>
 #include<ctime>
 using namespace std;
-
+const int maxn = 40000;
+int dp[maxn];
+int s[maxn];
+int sum[maxn];
 int main()
 {
-
-	int n;
-	scanf("%d", &n);
-	for (int seg = 1; seg < n; seg <<= 1)
+	int N;
+	while (cin >> N)
 	{
+		for (int i = 1; i <= N; i++)
+		{
+			cin >> s[i];
+			sum[i] = sum[i - 1] + s[i];
+		}
+		int j = 0;
+		for (int i = 1; i <= N; i++)
+		{
+			for (int k = j; k < i; k++)
+			{
 
+			}
+		}
 	}
+
 	return 0;
 }
