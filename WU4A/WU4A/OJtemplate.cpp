@@ -19,10 +19,9 @@ int dx[] = { 0, 1, 0, -1 };
 int dy[] = { 1, 0, -1, 0 };
 int m, n;
 char grid[maxn][maxn];
-bool vis[maxn][maxn];
-int dis[maxn][maxn];
-int pre[maxn][maxn];
-bool path[maxn][maxn];
+bool vis[maxn][maxn][11];
+int dis[maxn][maxn][11];
+int pre[maxn][maxn][11];
 int cost;
 const int inf = 0x3f3f3f3f;
 int cs(int x, int y)
@@ -43,52 +42,69 @@ int spfa(int S, int T)
 	queue<int> Q;
 	memset(dis, inf, sizeof(dis));
 	memset(vis, 0, sizeof(vis));
-	vis[S/ 1000][S % 1000] = true;
-	dis[S / 1000][S % 1000] = 0;
-	Q.push(S);
+	vis[S/ 1000][S % 1000][0] = true;
+	dis[S / 1000][S % 1000][0] = 0;
+	Q.push(S * 10);
 	while (!Q.empty())
 	{
 		int cur = Q.front();
 		Q.pop();
-		int curx = cur / 1000;
-		int cury = cur % 1000;
-		vis[curx][cury] = false;
+        int curd = cur % 10;
+		int curx = cur / 10000;
+		int cury = (cur / 10) % 1000;
+        vis[curx][cury][curd] = false;
 		for (int i = 0; i < 4; i++)
 		{
 			int tx = curx + dx[i];
 			int ty = cury + dy[i];
-			if (tx < 0 || ty < 0 || tx >= n || ty >= m)
+            int td = max(curd, cs(tx, ty));
+			if (td == inf || tx < 0 || ty < 0 || tx >= n || ty >= m)
 			{
 				continue;
 			}
-			if (dis[tx][ty] > dis[curx][cury] + cs(tx, ty))
+			if (dis[tx][ty][td] > dis[curx][cury][curd] + cs(tx, ty))
 			{
-				dis[tx][ty] = dis[curx][cury] + cs(tx, ty);
-				pre[tx][ty] = cur;
-				if (!vis[tx][ty])
+				dis[tx][ty][td] = dis[curx][cury][curd] + cs(tx, ty);
+				pre[tx][ty][td] = cur;
+				if (!vis[tx][ty][td])
 				{
-					vis[tx][ty] = true;
-					Q.push(tx * 1000 + ty);
+					vis[tx][ty][td] = true;
+					Q.push(tx * 10000 + ty * 10 + td);
 				}
 			}
 		}
 	}
-	if (dis[T/ 1000][T % 1000] == inf)
+    bool iscon = false;
+    int tx = T / 1000;
+    int ty = T % 1000;
+    int ans = 0;
+    S *= 10;
+  //  cout << S << endl;
+    for (int i = 0; i < 10; i++)
+    {
+        if (dis[tx][ty][i] != inf)
+        {
+            iscon = true;
+            int p = T * 10 + i;
+            int sum = 0;
+            while(p != S)
+            {
+                int pd = p % 10;
+                p /= 10;
+                int px = p / 1000;
+		        int py = p % 1000;
+                sum += cs(px, py);
+                p = pre[px][py][pd];
+            }
+            ans = max(ans, cost + i - sum);
+        }
+    }
+    return ans;
+    if (!iscon)
 	{
 		return 0;
 	}
-	int p = T;
-	int sum = 0;
-	int MMax = 0;
-	while (p != S)
-	{
-		int px = p / 1000;
-		int py = p % 1000;
-		sum += cs(px, py);
-		MMax = max(MMax, cs(px, py));
-		p = pre[px][py];
-	}
-	return cost - sum + MMax;
+    return ans;
 }
 int main()
 {
