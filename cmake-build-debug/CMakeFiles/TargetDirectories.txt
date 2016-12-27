@@ -1,3 +1,0 @@
-C:/SolveSet/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/SolveSet/cmake-build-debug/CMakeFiles/SolveSet.dir
-C:/SolveSet/cmake-build-debug/CMakeFiles/rebuild_cache.dir
