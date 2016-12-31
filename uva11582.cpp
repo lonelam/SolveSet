@@ -8,8 +8,29 @@ using namespace std;
 const int maxn = 1000 + 10;
 int pos[maxn][maxn];
 typedef unsigned long long ull;
-ull F[maxn * maxn * 8];
-ull pow_m(ull a, ull b, ull moder)
+ull F[maxn][maxn * 8];
+int moder[maxn];
+void init(int n)
+{
+	memset(pos, -1, sizeof(pos));
+	ull f = 1, pref = 0;
+	moder[n] = 0;
+	for (int i = 0; i < n * n; i++)
+	{
+	//	cout << "dbg";
+		if (pos[pref][f] != -1)
+		{
+			moder[n] = i - pos[pref][f];
+			break;
+		}
+		pos[pref][f] = i;
+		F[n][i] = pref;
+		pref = (pref + f) % n;
+		swap(f, pref);
+	}
+
+}
+ull pow_m(ull a, ull b, ull moderr)
 {
 	ull ans = 1;
 	ull cur = a;
@@ -17,50 +38,35 @@ ull pow_m(ull a, ull b, ull moder)
 	{
 		if (b & 1ULL)
 		{
-			ans = (ans * (cur)) % moder;
+			ans = (ans * (cur)) % moderr;
 		}
 		b >>= 1;
 		//cout << ans << endl;
-		cur = (cur * cur) % moder;
+		cur = (cur * cur) % moderr;
 	}
 	return ans;
 }
 
 int main()
 {
+	for (int i = 2; i <= 1000; i ++)
+	{
+		init(i);
+	}
 	int T;
 	while(scanf("%d", &T)!=EOF)
 	{
 		while(T--)
 		{
-			memset(pos, -1, sizeof(pos));
 			ull a, b, n;
 			scanf("%llu%llu%llu", &a,&b,&n);
-			ull f = 1, pref = 0;
-			ull moder = 0;
-			ull init = 0;
-			for (int i = 0; i < n * n; i++)
+			if (n == 1ULL)
 			{
-			//	cout << "dbg";
-				if (pos[pref][f] != -1)
-				{
-					moder = i - pos[pref][f];
-					init = i;
-					break;
-				}
-				pos[pref][f] = i;
-				F[i] = pref;
-				pref = (pref + f) % n;
-				swap(f, pref);
-			}
-			for (int i = init; i< 2 * moder; i++)
-			{
-				F[i] = pref;
-				pref = (pref + f) % n;
-				swap(f, pref);
+				printf("0\n");
+				continue;
 			}
 		//	cout << moder <<" "<<pow_m(a % moder, b , moder) << endl;
-			printf("%llu\n", F[pow_m(a % moder, b, moder) + moder]);
+			printf("%llu\n", F[n][pow_m(a % moder[n], b, moder[n])]);
 		}
 	}
 }
