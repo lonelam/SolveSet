@@ -8,7 +8,22 @@ using namespace std;
 const int maxn = 1000 + 10;
 int pos[maxn][maxn];
 typedef unsigned long long ull;
-
+ull F[maxn * maxn];
+ull pow_m(ull a, ull b, ull moder)
+{
+	ull ans = 1;
+	ull cur = a;
+	while(b)
+	{
+		if (b & 1ULL)
+		{
+			ans = (ans * (cur)) % moder;
+		}
+		b >>= 1;
+		cur = (cur * cur) % moder;
+	}
+	return ans;
+}
 int main()
 {
 	int T;
@@ -29,10 +44,23 @@ int main()
 					break;
 				}
 				pos[pref][f] = i;
-				pref = pref + f;
+				F[i] = pref;
+				pref = (pref + f) % n;
 				swap(f, pref);
 			}
-			
+			printf("%llu\n", F[pow_m(a, b, moder)]);
 		}
 	}
 }
+/*
+
+
+
+3
+1 1 2
+2 3 1000
+18446744073709551615 18446744073709551615 1000
+
+
+
+*/
