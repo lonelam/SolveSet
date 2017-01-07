@@ -63,16 +63,7 @@ int main()
             }
         }
     }
-    while(QQ.size() > k)
-    {
-        QQ.pop();
-    }
-    if (QQ.size() == k && ans < ri[QQ.top()] - li[id[n - 1]] + 1)
-    {
-        ans = ri[QQ.top()] - li[id[n - 1]] + 1;
-        L = li[id[n - 1]];
-        R = ri[QQ.top()];
-    }
+
     if (ans == 0)
     {
         L= -1e9;
