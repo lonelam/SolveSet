@@ -48,6 +48,7 @@ int sum(int x)
 }
 void solve()
 {
+    cout << "degb";
     init();
     cout <<"deb";
     for (int i = 0; i < n;i ++)
@@ -112,12 +113,15 @@ void solve()
 }
 int main()
 {
-    while(cin >> n >> k)
+    while(scanf("%d%d",&n,&k)!=EOF)
     {
-        for (int i = 0; i < n; i++)
+    //    cout << n << endl;
+        for (int j = 0; j < n; j++)
         {
         //    cout <<"debug";
-            cin >> li[i] >> ri[i];
+        cout << n << endl;
+        scanf("%d%d", li + j, ri+j);
+            //cin >> li[j] >> ri[j];
         }
         cout << "deubg";
         solve();
