@@ -7,7 +7,8 @@ const int maxn = 300000 + 1000;
 int ch[maxn][2];
 int pre[maxn];
 bool flipped[maxn];
-
+int size[maxn];
+//int L[maxn], R[maxn];
 void push_down(int r)
 {
     if (!r) return;
@@ -58,3 +59,8 @@ void splay(int x, int goal)
         }
     }
 }
+int newnode()
+{
+
+}
+void build()

@@ -13,16 +13,16 @@
 #include <deque>
 
 using namespace std;
-typedef long long ll;
+typedef unsigned long long ll;
 typedef long double ld;
 const int inf = 0x3f3f3f3f;
 map<char, ll> hval;
 const int maxn = 10005;
-const int maxprime = 200025;
+const int maxprime = 20005;
 const ll moder = 1e9 + 7 ;
 const ll Radix = 10007;
-int lennum[27];
-int lenss[27][maxn];
+int lennum;
+int lenss[maxn];
 bool nprime[maxprime];
 void init()
 {
@@ -40,7 +40,7 @@ void init()
         }
     }
     char hkey = 127;
-    for (int k = 100010; k < maxprime && hkey; k++)
+    for (int k = 10000; k < maxprime && hkey; k++)
     {
         if (!nprime[k])
         {
@@ -75,43 +75,42 @@ ll get(int i, int j)
     ret = (ret + S[i] * hpower[0] + S[j] * hpower[j - i + 1]) % moder;
     return ret;
 }
-char wd[maxn][200];
-map<ll, int> htable[27][27];
-map<ll, int> h2str;
+char wd[maxn];
+map<ll, int> htable[27];
+map<ll, string> h2str;
 int mem[maxn];
 int pre[maxn];
-int dpsearch()
+int dfs(int pos)
 {
-    for (int i = n - 1; i >= 0; i--)
+    if (mem[pos] != -1)
     {
-        int idx = S[i] - 'a';
-        int sz = lennum[idx];
-        int ans = 0;
-        for (int j = 0; j < sz; j++)
+        return mem[pos];
+    }
+    int ans = 0;
+    if (htable[S[pos] - 'a'].size() == 0)
+    {
+        return mem[pos] = 0;
+    }
+    for (int ii = 0; ii < lennum && pos + lenss[ii] <= n; ii++)
+    {
+        int i = lenss[ii];
+        ll hh = get(pos, pos + i - 1);
+        if (htable[S[pos] - 'a'].find(hh) != htable[S[pos] - 'a'].end())
         {
-            int ed = i + lenss[idx][j] - 1;
-            int idy = S[ed] - 'a';
-            if (!mem[ed + 1] || !htable[idx][idy].size()) continue;
-            if (ed >= n)
+            int tmp = dfs(pos + i);
+            if (tmp)
             {
-                break;
-            }
-            ll hh = get(i, ed);
-            if (htable[idx][idy].find(hh) != htable[idx][idy].end())
-            {
-                ans += htable[idx][idy][hh] * mem[ed + 1];
-                pre[ed + 1] = i;
-                if (ans > 1)
-                {
-                    break;
-                }
+                ans += htable[S[pos] - 'a'][hh] * tmp;
+                pre[pos + i] = pos;
             }
         }
-        mem[i] = ans;
+        if (ans > 1)
+        {
+            break;
+        }
     }
-    return mem[0];
+    return mem[pos] = ans;
 }
-
 int main()
 {
     int T;
@@ -120,46 +119,41 @@ int main()
     {
         while(T--)
         {
-            memset(lennum, 0, sizeof(lennum));
             scanf("%s", S);
             n = strlen(S);
             build();
-            for (int i = 0; i < 27; i++)
-            for (int j = 0; j < 27; j++) htable[i][j].clear();
+            for (int i = 0; i < 27; i++) htable[i].clear();
             h2str.clear();
             int wdnum;
             scanf("%d", &wdnum);
             for (int i = 0; i < wdnum; i++)
             {
-                scanf("%s", wd[i]);
-                int m = strlen(wd[i]);
-                int idx = wd[i][0] - 'a';
-                int idy = wd[i][m - 1] - 'a';
-                lenss[idx][lennum[idx]++] = m;
+                scanf("%s", wd);
+                int m = strlen(wd);
+                lenss[i] = m;
                 if (m == 1)
                 {
-                    htable[idx][idy][wd[i][0]]++;
-                    h2str[wd[i][0]] = i;
+                    htable[wd[0] - 'a'][wd[0]]++;
+                    h2str[wd[0]] = wd;
                     continue;
                 }
                 if (m > n)
                 {
                     continue;
                 }
-                ll hh = (wd[i][0] * 1LL + wd[i][m - 1] * hpower[m]) % moder;
-                for (int j = 1; j + 1 < m; j++)
+                ll hh = (wd[0] * 1LL + wd[m - 1] * hpower[m]) % moder;
+                for (int i = 1; i + 1 < m; i++)
                 {
-                    hh = (hval[wd[i][j]] + hh) % moder;
+                    hh = (hval[wd[i]] + hh) % moder;
                 }
-                htable[idx][idy][hh]++;
-                h2str[hh] = i;
+                htable[wd[0] - 'a'][hh]++;
+                h2str[hh] = wd;
             }
-            for (int i = 0; i < 27; i++) sort(lenss[i], lenss[i] + lennum[i]);
-            for (int i = 0; i < 27; i++) lennum[i] = unique(lenss[i], lenss[i] + lennum[i]) - lenss[i];
+            sort(lenss, lenss + wdnum);
+            lennum = unique(lenss, lenss + wdnum) - lenss;
             memset(mem, -1, sizeof(mem));
             mem[n] = 1;
-        //    int ans = dfs(0);
-            int ans = dpsearch();
+            int ans = dfs(0);
             if (ans == 0)
             {
                 printf("impossible\n");
@@ -171,19 +165,17 @@ int main()
             else
             {
                 int p = n;
-                vector<ll> ans;
+                vector<string> ans;
                 while(p)
                 {
                     ll hh = get(pre[p], p - 1);
-                    ans.push_back(hh);
+                    ans.push_back(h2str[hh]);
                     p = pre[p];
                 }
-                reverse(ans.begin(), ans.end());
-                for (int i = 0; i < ans.size(); i++)
+                for (int i = ans.size() - 1; i >= 0; i--)
                 {
-                    printf("%s%c", wd[h2str[ans[i]]], i != ans.size() - 1 ? ' ' : '\n');
+                    printf("%s%c", ans[i].c_str(), i == 0 ? '\n': ' ');
                 }
-    //            printf("\n");
             }
         }
     }
