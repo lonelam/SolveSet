@@ -1,21 +1,3 @@
-#include <cstdio>
-#include <cmath>
-#include <iostream>
-#include <algorithm>
-#include <cstring>
-#include <string>
-#include <vector>
-#include <map>
-#include <set>
-#include <functional>
-#include <queue>
-#include <stack>
-#include <deque>
-using namespace std;
-typedef long long ll;
-typedef long double ld;
-const int inf = 0x3f3f3f3f;
-
 const int maxn = 300000 + 1000;
 int pre[maxn], ch[maxn][2];
 bool rev[maxn];
@@ -144,41 +126,4 @@ void cut(int x, int y)
     pre[ch[y][0]] = 0;
     ch[y][0] = 0;
     push_up(y);
-}
-
-vector<int> G[maxn];
-int gcd(int a, int b)
-{
-    return b == 0 ? a : gcd(b, a % b);
-}
-void try_link(int x, int y)
-{
-
-    makeroot(x);
-    int monchain = mx[access(y)];
-    int gd = gcd(x, y);
-    if (monchain < gd)
-    {
-        cut()
-    }
-
-}
-int main()
-{
-
-    for(int i = 2; i <= maxn ; i ++){
-        for(int j = i + i; j <= maxn ; j+=i){
-            G[j].push_back(i);
-        }
-    }
-
-
-    for(int i = 1; i <= maxn; i ++){
-        for(int j = 0 ;j < G[i].size(); j ++){
-            try_link(i,G[i][j]);
-        }
-        ans[i] = now_ans;
-    }
-    cin >> n;
-    cout << ans[n] << endl;
 }
