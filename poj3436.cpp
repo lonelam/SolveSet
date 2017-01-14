@@ -1,247 +1,206 @@
-#include<deque>
-//#include<iostream>
-#include<vector>
-#include<queue>
-#include<cstdio>
-#include<cstring>
+#include <cstdio>
+#include <cmath>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <vector>
+#include <map>
+#include <set>
+#include <functional>
+#include <queue>
+#include <stack>
+#include <deque>
 using namespace std;
-
-const int maxn = 51;
-const int maxp = 11;
+typedef long long ll;
+typedef long double ld;
 const int inf = 0x3f3f3f3f;
-int G[maxn * 2][maxn * 2];
-int Source[maxn * 2][maxp];
-int Dest[maxn * 2][maxp];
-int Q[maxn * 2];
-int Layer[maxn * 2];
-int Flow[maxn * 2][maxn * 2];
-bool vis[maxn * 2];
-//int pre[maxn * 2];
-bool cntLayer(int s, int t)
-
+const int maxn = 1000;
+const int maxp = 100;
+struct edge
 {
-    int layer = 0;
-    deque<int> q;
-    memset(Layer, -1, sizeof(Layer));
-    Layer[s] = 0;
-    q.push_back(s);
-    while(!q.empty())
+    int u, v;
+    ll cap, flow;
+    edge() {}
+    edge(int u, int v, ll cap) : u(u), v(v), cap(cap), flow(0) {}
+};
+
+struct dinic
+{
+    int n;
+    vector<edge> es;
+    vector<vector<int> > g;
+    vector<int> d, pt;
+    dinic(int n) : n(n), es(0), g(n), d(n), pt(n) {}
+    void addedge(int u, int v, ll cap)
     {
-        int cur = q.front();
-        q.pop_front();
-        for(int i = 0; i <= t; i++)
+        if (u != v)
         {
-            if(G[cur][i] > Flow[cur][i] && Layer[i] == -1)
-            {
-
-                Layer[i] = Layer[cur] + 1;
-
-                q.push_back(i);
-            }
+            es.push_back(edge(u, v, cap));
+            g[u].push_back(es.size() - 1);
+            es.push_back(edge(v, u, 0));
+            g[v].push_back(es.size() - 1);
         }
     }
-    return Layer[t] != -1;
-}
-int Dinic(int s, int t)
-{
-    deque<int> q;
-    int ans = 0;
-    memset(Flow,0,sizeof(Flow));
-    while(cntLayer(s, t))
+    bool bfs(int S, int T)
     {
-        memset(vis, 0, sizeof(vis));
-        q.push_back(s);
-       // printf("debug");
-        vis[s] = true;
-        while(!q.empty())
+        queue<int> Q;
+        Q.push(S);
+        fill (d.begin(), d.end(), n + 1);
+        d[S] = 0;
+        while(!Q.empty())
         {
-            int cur = q.back();
-      //      q.pop_back();
-            int i;
-            if(cur == t)
+            int u = Q.front();
+            Q.pop();
+            if (u == T)break;
+            for (int k = 0; k < g[u].size(); k++)
             {
-                int Augflow = inf;
-                int popto;
-                int dn = t;
-                for(int i = 1; i < q.size(); i++)
+                edge & e = es[g[u][k]];
+                if (e.flow < e.cap && d[e.v] > d[e.u] + 1)
                 {
-                    int from = q[i - 1];
-                    int to = q[i];
-                    if(Augflow > G[from][to] - Flow[from][to])
-                    {
-                        popto = from;
-                        Augflow = G[from][to] - Flow[from][to];
-                    }
-                }
-                for(int i = 1; i < q.size(); i++)
-                {
-                    int from = q[i - 1];
-                    int to = q[i];
-                    Flow[from][to] += Augflow;
-                    Flow[to][from] -= Augflow;
-                }
-                while(!q.empty() &&  q.back()!= popto)
-                {
-                    vis[q.back()] = false;
-                    q.pop_back();
-                }
-                ans += Augflow;
-               // printf("debug");
-                continue;
-            }
-            for(i = 0; i <= t; i++)
-            {
-                if(G[cur][i] > Flow[cur][i] && !vis[i] && Layer[cur] + 1 == Layer[i])
-                {
-                    q.push_back(i);
-                 //  printf("debug");
-                    vis[i] = true;
-                    break;
+                    d[e.v] = d[e.u] + 1;
+                    Q.push(e.v);
                 }
             }
-            if(i == t + 1)
+        }
+        return d[T] != n + 1;
+    }
+    ll dfs(int u, int T, ll flow = -1)
+    {
+        if ( u == T || flow == 0) return flow;
+        for (int & i = pt[u]; i < g[u].size(); i++)
+        {
+            edge & e = es[g[u][i]];
+            edge & oe = es[g[u][i]^1];
+            if (d[e.v] == d[e.u] + 1)
             {
+                ll amt = e.cap - e.flow;
+                if (flow != -1 && amt > flow) amt = flow;
+                if (ll pushed = dfs(e.v, T, amt))
+                {
+                    e.flow += pushed;
+                    oe.flow -= pushed;
+                    return pushed;
+                }
+            }
+        }
+        return 0;
+    }
+    ll maxflow(int S, int T)
+    {
+        ll total = 0;
+        while(bfs(S, T))
+        {
+            fill(pt.begin(), pt.end(), 0);
+            while(ll flow = dfs(S, T))
+                total += flow;
+        }
+        return total;
+    }
+};
 
-                //vis[cur] = false;
-                q.pop_back();
-            }
-        }
-    }
-    return ans;
-}
-vector<deque<int> > path(int n)
-{
-    vector<deque<int> > ans;
-    queue<deque<int> > q;
-    int s = 2 * n;
-    int t = 2 * n + 1;
-    deque<int> tmp;
-    tmp.push_back(s);
-    q.push(tmp);
-    while(!q.empty())
-    {
-        deque<int> cur = q.front();
-        q.pop();
-        if(cur.back() == t)
-        {
-            ans.push_back(cur);
-        }
-        else
-        {
-            for(int i = 0; i <= t; i++)
-            {
-                if(Flow[cur.back()][i] > 0)
-                {
-                    cur.push_back(i);
-                    q.push(cur);
-                    cur.pop_back();
-                }
-            }
-        }
-    }
-    return ans;
-}
+
+int from[maxn][maxp];
+int to[maxn][maxp];
+
+int perf[maxn];
 int main()
 {
-    int p, n;
-    while(scanf("%d%d",&p,&n)!=EOF)
+    int P, N;
+    int si;
+    ios::sync_with_stdio(false);
+    while(cin >> P >> N)
     {
-        int start = 2 * n;
-        memset(G, 0, sizeof(G));
-        int end = 2 * n + 1;
-        for(int i = 0; i < n; i++)
+        int S = N * 2 + 1;
+        int T = S + 1;
+        int tot = T + 1;
+        dinic G(tot);
+//        map<int, vector<int> > ustate, vstate;
+        for (int i = 0; i < N; i++)
         {
-            scanf("%d",Q + i);
-            for(int j = 0; j < p; j++)
+            cin >> perf[i];
+        //    int u = 0, v = 0;
+            for (int j = 0; j < P; j++)
             {
-                scanf("%d", Source[i] + j);
+                cin >> from[i][j];
+            }
+            for (int j = 0; j < P; j++)
+            {
+                cin >> to[i][j];
+            }
 
-            }
-            for(int j = 0; j < p; j++)
-            {
-                scanf("%d",Dest[i] + j);
-            }
         }
-        for(int i = 0; i < n; i++)
+        for (int i = 0; i < N; i++)
         {
-            G[i][i + n] = Q[i];
-         //   printf("debug: edge %d %d\n",i, i + n);
-            bool from0 = true, end0 = true;
-            for(int j = 0; j < p; j++)
+            G.addedge(i, i + N, perf[i]);
+        }
+        for (int i = 0; i < N; i++)
+        {
+            bool starter = true, finisher = true;
+            for (int k = 0; k < P; k++)
             {
-                if(Source[i][j] == 1)
+                if (from[i][k] == 1)
                 {
-                    from0 = false;
+                    starter = false;
                 }
-                if(Dest[i][j] == 0)
+                if (to[i][k] == 0)
                 {
-                    end0 = false;
+                    finisher = false;
                 }
             }
-            if(from0)
+            if (starter)
             {
-                G[start][i] = inf;
-           //     printf("from to: %d\n",i);
+            //    cout << "starter L" << i  + 1<< endl;
+                G.addedge(S, i, inf);
             }
-            if(end0)
+            if (finisher)
             {
-                G[i + n][end] = inf;
-             //   printf("end to %d\n",i + n);
+                G.addedge(i + N, T, inf);
             }
-        }
-
-        for(int i = 0; i < n; i++)
-        {
-            for(int j = 0; j < n; j++)
+            for (int j = 0; j < N; j++)
             {
-                bool isto = true;
-                for(int k = 0; k < p; k++)
+                bool ok = true;
+                if (i == j) continue;
+                for (int k = 0; k < P; k++)
                 {
-                    if((Dest[i][k] == 1 && Source[j][k] == 0)||(Dest[i][k] == 0 && Source[j][k] == 1))
+                    if (to[i][k] == 1 && from[j][k] == 0 )
                     {
-                        isto = false;
+                        ok = false;
+                        break;
+                    }
+                    else if (to[i][k] == 0 && from[j][k] == 1)
+                    {
+                        ok = false;
                         break;
                     }
                 }
-                if(isto && i!= j)
+                if (ok)
                 {
-                    G[i + n][j] = inf;
-                 //   printf("debug:edge %d %d\n", i, j);
+                    G.addedge(i + N, j, inf);
+    //                cout <<"edge "<< i +1<<" "<< j+1 << endl;
                 }
             }
-        }
-        int tot = Dinic(start, end);
-        vector<deque<int> > ans = path(n);
-        int ecnt = 0;
-        for(int i = 0; i < ans.size(); i++)
-        {
-
-            ecnt += ans[i].size()/ 2 - 2;
-        }
-        printf("%d %d\n",  tot, ecnt);
-        for(int i = 0; i < ans.size(); i++)
-        {
-            int cf = inf;
-            for(int j = 1; j < ans[i].size(); j++)
-            {
-                int to = ans[i][j], from = ans[i][j - 1];
-                cf = min(Flow[from][to], cf);
-                //if(from < n)
-              //  printf("%d %d %d\n", from + 1, to + 1, cf);
-            }
-            for(int j = 1; j < ans[i].size(); j++)
-            {
-                int to = ans[i][j], from = ans[i][j - 1];
-                if(to < n && from != start)
-                {
-                    printf("%d %d %d\n", from - n + 1, to +1, cf);
-                }
-            }
-          //  printf("%d\n", cf);
 
         }
-    //    printf("%d ",tot);
+        cout << G.maxflow(S, T);
+        vector<int> ans;
+        for (int i = 2 * N; i < G.es.size(); i += 2)
+        {
+            edge & e = G.es[i];
+        //    edge & oe = G.es[i ^ 1];
+            if (e.u != S && e.v != T &&e.flow )
+            {
+                ans.push_back(i);
+        //        cout << e.u + 1 << " "<< e.v + 1 << " " << e.flow << endl;
+            }
+    //        if (e.u == S) cout <<  e.v + 1 << " " << e.flow << endl;
+        }
+        cout << " "<< ans.size() << endl;
+        for (int i = 0; i < ans.size() ; i++)
+        {
+            edge & e = G.es[ans[i]];
+        //    edge & oe = G.es[ans[i] ^ 1];
+            cout << (e.u - N + 1) << " "<< (e.v + 1) << " " << e.flow << endl;
+        }
     }
 }
-
-

@@ -1,13 +1,21 @@
-
-#include<iostream>
-#include<algorithm>
-#include<vector>
-#include<deque>
-#include<cstring>
-
+#include <cstdio>
+#include <cmath>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <vector>
+#include <map>
+#include <set>
+#include <functional>
+#include <queue>
+#include <stack>
+#include <deque>
 using namespace std;
+typedef long long ll;
+typedef long double ld;
 const int inf = 0x3f3f3f3f;
-const int maxp = 10;
+const int maxp = 11;
 const int maxn = 202 * 2;
 int S[maxn][maxp];
 int Q[maxn];
@@ -15,9 +23,22 @@ int D[maxn][maxp];
 struct edge
 {
 	int from, to, flow, cap;
-	
 };
-bool cmp(const edge & a,const edge & b)
+/*bool cmp(const edge a ,const edge  b)
+{
+	if (a.flow > b.flow)
+	{
+		return true;
+	}
+	else if (a.flow == b.flow)
+	{
+		return a.from < b.from;
+	}
+	return false;
+}*/
+struct cmp
+{
+	bool operator()(const edge &a ,const edge & b)
 	{
 		if (a.flow > b.flow)
 		{
@@ -29,6 +50,7 @@ bool cmp(const edge & a,const edge & b)
 		}
 		return false;
 	}
+};
 struct isap
 {
 	int n, m, s, t;
@@ -68,7 +90,7 @@ struct isap
 			int pos = q.front();
 			q.pop_front();
 
-			for (int i = 0; i < G[pos].size(); i++)
+			for (int i = 0; i < (int)G[pos].size(); i++)
 			{
 				edge & e = es[G[pos][i] ^ 1];
 				if (e.cap > e.flow && !vis[e.from])
@@ -122,7 +144,7 @@ struct isap
 				x = s;
 			}
 			int ok = 0;
-			for (int i = cur[x]; i < G[x].size(); i++)
+			for (int i = cur[x]; i < (int)G[x].size(); i++)
 			{
 				edge & e = es[G[x][i]];
 				if (e.cap > e.flow && dis[x] == dis[e.to] + 1)//Advance
@@ -137,7 +159,7 @@ struct isap
 			if (!ok)
 			{
 				int m = n - 1;
-				for (int i = 0; i < G[x].size(); i++)
+				for (int i = 0; i < (int)G[x].size(); i++)
 				{
 					edge &e = es[G[x][i]];
 					if (e.cap > e.flow)
@@ -189,7 +211,7 @@ struct isap
 
 			}
 			int ok = 0;
-			for (int i = cur[x]; i < G[x].size(); i++)
+			for (int i = cur[x]; i < (int)G[x].size(); i++)
 			{
 				edge & e = es[G[x][i]];
 				if (e.flow > 0)
@@ -212,21 +234,21 @@ struct isap
 	}
 	void edge_show(int f)
 	{
-		vector<int> p;
-		for (int i = 0; i < es.size(); i++)
+		vector<edge> p;
+		for (int i = 0; i < (int)es.size(); i++)
 		{
 			edge & e = es[i];
 			if (e.flow > 0 && e.cap == inf && e.from != s && e.to != t)
 			{
-				p.push_back(i);
+				p.push_back(es[i]);
 			//	cout << (e.from >> 1) + 1 << " " << (e.to >> 1) + 1 << " " <<e.flow << endl;
 			}
 		}
 		cout << f << " " << p.size() <<endl;
-		sort(p.begin(), p.end(), cmp);
-		for (int i = 0; i < p.size(); i++)
+		sort(p.begin(), p.end(), cmp());
+		for (int i = 0; i < (int)p.size(); i++)
 		{
-			edge & e = es[p[i]];
+			edge & e = p[i];
 			cout << (e.from >> 1) + 1 << " " << (e.to >> 1) + 1 << " " << e.flow << endl;
 		}
 	}
@@ -277,7 +299,7 @@ int main()
 			if (f_source)
 			{
 				is.add_edge(sour, i << 1, inf);
-				
+
 			}
 			if (to_dest)
 			{

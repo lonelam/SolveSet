@@ -219,6 +219,3 @@ int main()
 	cout << m - is.maxflow(source, dest) << endl;
 	//system("pause");
 }
-
-
-
