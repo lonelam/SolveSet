@@ -8,7 +8,22 @@ const int maxn = 1000 + 10;
 ll dp[maxn][maxn];
 ll sum[maxn];
 ll sqsum[maxn];
+int K[maxn][maxn];
 int main()
 {
-    int 
+    int n, m;
+    while(scanf("%d%d",&n,&m)!=EOF)
+    {
+        for (int i = 1; i <= n; i++)
+        {
+            scanf("%lld",sum + i);
+            sqsum[i] = sqsum[i - 1] + sum[i] * sum[i];
+            sum[i] += sum[i - 1];
+        }
+        for (int k = 1; k <= m; k++)
+        for (int i = 1; i<= n; i++)
+        {
+            for (int j = K[i + 1][k - 1]; j < K[i])
+        }
+    }
 }
