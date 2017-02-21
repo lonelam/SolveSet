@@ -12,9 +12,9 @@ ll c[maxn];
 ll bvis[maxn];
 ll x;
 
-int main()
+int solve()
 {
-    cin >> a[0] >> b[0] >> w >> x >> c[0];
+    if(!(cin >> a[0] >> b[0] >> w >> x >> c[0]))return -1;
     if (a[0] >= c[0])
     {
         cout << 0 << endl;
@@ -85,4 +85,9 @@ int main()
             return 0;
         }
     }
+    return 0;
+}
+int main()
+{
+    while(solve()!=-1);
 }

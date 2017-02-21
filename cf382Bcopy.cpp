@@ -6,10 +6,11 @@ const int inf = 0x3f3f3f3f;
 const int maxn = 100000;
 
 ll vis[maxn];
-int main()
+int solve()
 {
+    memset(vis,0,sizeof(vis));
     ll a,b,w,x,c;
-    cin >> a >> b >> w >> x >> c;
+    if(!(cin >> a >> b >> w >> x >> c)) return -1;
     if (c <= a)
     {
         cout << 0 << endl;
@@ -58,5 +59,12 @@ int main()
             return 0;
         }
     }
+    return 0;
+}
+int main()
+{
+  //  freopen("C:\\Users\\51433\\Desktop\\test\\data.in","r",stdin);
+    //freopen("C:\\Users\\51433\\Desktop\\test\\data.out","w",stdout);
+    solve() ;
     return 0;
 }
