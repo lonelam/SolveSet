@@ -19,6 +19,24 @@ int head[maxn], tot;
 void init()
 {
     tot = 0;
-    memest(head, -1, sizeof(head));
-    
+    memset(head, -1, sizeof(head));
+}
+
+void addedge(int u,int v)
+{
+    edge[tot].to = v;
+    edge[tot].nex = head[u];
+    head[u] = tot++;
+}
+bool vis[maxn];
+
+int S[maxn], top;
+bool dfs(int u)
+{
+    if (vis[u ^ 1]) return false;
+    if (vis[u]) return true;
+    vis[u] = true;
+    S[top++] = u;
+    for (int i = head[u]; i!= -1; i = edge[i].nex)
+        if ()
 }

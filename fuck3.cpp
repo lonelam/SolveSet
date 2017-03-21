@@ -12,19 +12,16 @@ int main()
     int T;
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    while(cin >> T)
+    cin >> T;
     {
         while(T--)
         {
             int k;
-
             cin >> bignum >> k;
-            int kik = k;
         //    int l = 0, r = k;
             int len = strlen(bignum);
             int c = 0;
-            int cur = 0;
-            while(cur + kik < len)
+            while( c < len && k > 0)
             {
                 int pre = c;
                 for (int i = c; i <= c + k && i < len; i++)
@@ -41,8 +38,12 @@ int main()
                     }
                     //pre = i;
                 }
-                bignum[cur++] = bignum[pre];
-
+                bignum
+                for (int i = c; i < pre; i++)
+                {
+        //            cout << bignum[i] << endl;
+                    bignum[i] = '$';
+                }
                 k -= pre - c;
                 c = pre + 1;
                 //tar[]
@@ -52,16 +53,19 @@ int main()
             {
                 bignum[i] = '$';
             }*/
-            //cur = 0;
+            int cur = 0;
             int i = 0;
-            while(bignum[i] == '0') i++;
-            for (; i + kik< len; i++)
+            while(bignum[i] == '0' || bignum[i] == '$') i++;
+            for (; i < len; i++)
             {
-                cout << bignum[i];
+                if (bignum[i] != '$')
+                {
+                    bignum[cur++] = bignum[i];
+                }
             }
 
-        //    bignum[cur] = 0;
-            cout << endl;
+            bignum[cur] = 0;
+            cout << bignum << endl;
         }
     }
 }
