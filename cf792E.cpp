@@ -5,43 +5,71 @@ typedef long double ld;
 const int inf = 0x3f3f3f3f;
 const int maxn = 100000;
 ll a[maxn];
-
 int main()
 {
-    ll n;
+    ios::sync_with_stdio(false);
+
+    int n;
     cin >> n;
-    ll L = 1, R = 1;
     for (int i = 0; i < n; i++)
     {
         cin >> a[i];
-        R = max(a[i], R);
     }
-    R++;
-    while(L + 1< R)
+    ll upk = sqrt(a[0]);
+    ll ans = 3e18;
+    for (int k = 1; k <= upk; k++)
     {
-        const ll mid = L + (R - L)/ 2;
-        bool ok = true;
+        ll cnt = 0;
+
         for (int i = 0; i < n; i++)
         {
-            if (a[i] % mid > a[i] / mid)
+            if (a[i] / k >= a[i] % k)
             {
-                ok = false;
+                cnt += min(a[i] / k, (a[i] / (k + 1) + ((a[i] % (k + 1) ? 1 : 0))));
+            }
+            else
+            {
+                cnt = 3e18;
                 break;
             }
         }
-        if(!ok)
-        {
-            R = mid;
-        }
-        else
-        {
-            L = mid;
-        }
+        ans = min(ans, cnt);
     }
-    ll cnt = 0;
-    for (int i = 0; i < n; i++)
+    for (int k = 1; k <= upk; k++)
     {
-        cnt += a[i] / L;
+        ll cnt = 0, c2 = 0;
+        ll size = a[0] / k;
+        for (int i = 0; i < n; i++)
+        {
+            if (a[i] / size >= a[i] % size)
+            {
+                cnt += min(a[i] / size, (a[i] / (size + 1) + (a[i] % (size + 1) ? 1 : 0)));
+            }
+            else
+            {
+                cnt = 3e18;
+                break;
+            }
+        }
+        ans = min(ans, cnt);
+        if (size > 1)
+        {
+            cnt = 0;
+            size--;
+            for (int i = 0; i < n; i++)
+            {
+                if (a[i] / size >= a[i] % size)
+                {
+                    cnt += min(a[i] / size, (a[i] / (size + 1) + (a[i] % (size + 1) ? 1 : 0)));
+                }
+                else
+                {
+                    cnt = 3e18;
+                    break;
+                }
+            }
+        ans = min(ans, cnt);
+        }
     }
-    cout << cnt << endl;
+    cout << ans << endl;
 }
