@@ -18,15 +18,15 @@ void ers(int x)
             if (n[i] != '0')
             {
                 delto = i;
-            //    cout << i << endl;
+                //    cout << i << endl;
 
                 break;
             }
-        //    cout << n[i] << endl;
+            //    cout << n[i] << endl;
         }
-    //    cout << delto<<endl;
+        //    cout << delto<<endl;
         if (delto)
-        strcpy(n, n + delto);
+            strcpy(n, n + delto);
         else strcpy(n,n + len - 1);
         len = strlen(n);
     }
@@ -51,35 +51,28 @@ int main()
     if (sig == 0) cout << n;
     else if (sig == 1)
     {
-        if(cnt[1]
-        && len > 1)
-        for (int i = len - 1; i >= 0; i--)
-        {
-            if ((n[i] - '0')%3 == 1)
-            {ers(i);
-            cout << n;
-            return 0;
-        }
-        }
+        if(cnt[1] && len > 1 && (!((n[0] - '0')%3 == 1 && cnt[1] == 1 && n[1] == '0' && cnt[2] >= 2 && len > 2)))
+            for (int i = len - 1; i >= 0; i--)
+            {
+                if ((n[i] - '0')%3 == 1)
+                {
+                    ers(i);
+                    cout << n;
+                    return 0;
+                }
+            }
         else if (cnt[2] >= 2 && len > 2)
         {
             for (int k = 0; k < 2; k++)
-            for (int i = len - 1; i >=0; i--)
-            {
-                if ((n[i] - '0')%3 == 2)
+                for (int i = len - 1; i >=0; i--)
                 {
-                    ers(i);
-                    break;
+                    if ((n[i] - '0')%3 == 2)
+                    {
+                        ers(i);
+                        break;
+                    }
                 }
-            }
-            for (int i = len - 1; i >=0; i--)
-            {
-                if ((n[i] - '0')%3 == 2)
-                {
-                    ers(i);
-                    break;
-                }
-            }
+
             cout << n;
             return 0;
         }
@@ -91,33 +84,29 @@ int main()
     }
     else if (sig == 2)
     {
-        if(cnt[2] && len > 1)
-        for (int i = len - 1; i >= 0; i--)
-        {
-            if ((n[i] - '0')%3 == 2)
-            {ers(i);
-            cout << n;
-            return 0;}
-        }
+        if(cnt[2] && len > 1 && (!((n[0] - '0')%3 == 2 && cnt[2] == 1 && n[1] == '0' && cnt[1] >= 2 && len > 2)))
+            for (int i = len - 1; i >= 0; i--)
+            {
+                if ((n[i] - '0')%3 == 2)
+                {
+                    ers(i);
+                    cout << n;
+                    return 0;
+                }
+            }
         else if (cnt[1] >= 2 && len > 2)
         {
+           // cout <<"debug";
             for (int k = 0; k < 2; k++)
-            for (int i = len - 1; i >=0; i--)
-            {
-                if ((n[i] - '0')%3 == 1)
+                for (int i = len - 1; i >=0; i--)
                 {
-                    ers(i);
-                    break;
+                    if ((n[i] - '0')%3 == 1)
+                    {
+                        ers(i);
+                        break;
+                    }
                 }
-            }
-            for (int i = len - 1; i >=0; i--)
-            {
-                if ((n[i] - '0')%3 == 1)
-                {
-                    ers(i);
-                    break;
-                }
-            }
+
             cout << n;
             return 0;
         }
