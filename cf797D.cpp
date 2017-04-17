@@ -17,6 +17,7 @@ void afs(int x)
     if (l[x] != -1)
     {
         afs(l[x]);
+        while(!q.empty() && )
     }
 }
 int main()
