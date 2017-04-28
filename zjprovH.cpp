@@ -10,7 +10,7 @@ int seq2[maxn];
 int pos1[maxn];
 int pos2[maxn];
 int par[maxn];
-void gener(int L1, int R1, int L2, int R2, int p)
+void gener(int L1, int R1, int L2, int R2)
 {
     if (L1 == R1)
     {
@@ -19,6 +19,10 @@ void gener(int L1, int R1, int L2, int R2, int p)
     if (L2 == R2)
     {
         cout <<"debug"<< endl;
+        return;
+    }
+    if (L1 + 1 == R1)
+    {
         return;
     }
     if (seq1[L1] == seq2[L2])
