@@ -9,13 +9,9 @@ int seq1[maxn];
 int seq2[maxn];
 int pos1[maxn];
 int pos2[maxn];
-<<<<<<< HEAD
-int par[maxn];
-void gener(int L1, int R1, int L2, int R2)
-=======
+
 int chcnt[maxn];
 int gener(int L1, int R1, int L2, int R2, int p)
->>>>>>> 8fd939d8dec9d211f04cc0cb6c70ea0f57ff8e09
 {
     if (L1 == R1)
     {
@@ -26,10 +22,7 @@ int gener(int L1, int R1, int L2, int R2, int p)
         cout <<"debug"<< endl;
         return 0;
     }
-    if (L1 + 1 == R1)
-    {
-        return;
-    }
+
     if (seq1[L1] == seq2[L2])
     {
         par[seq1[L1]] = p;
