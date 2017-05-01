@@ -61,7 +61,7 @@ void bfs(int root)
       }
       deg[v] = deg[u] + 1;
       fa[v][0] = u;
-      Q.push(v)
+      Q.push(v);
     }
   }
 }
@@ -85,4 +85,35 @@ int lca(int u, int v)
     tv = fa[tv][i];
   }
   return fa[tu][0];
+}
+int in[maxn];
+
+int main()
+{
+  int t, n, u, v;
+  scanf("%d", &t);
+  while(t--)
+{
+    scanf("%d", &n);
+    init();
+    memset(in, 0, sizeof(in));
+    for (int i = 1; i < n; i++)
+    {
+      scanf("%d%d", &u, &v);
+      addedge(u, v);
+      addedge(v, u);
+      in[v]++;
+    }
+    for (int i = 1;i  <= n;i ++)
+    {
+      if (!in[i])
+      {
+        bfs(i);
+        break;
+      }
+    }
+    scanf("%d%d", &u, &v);
+    printf("%d\n", lca(u, v));
+  }
+  return 0;
 }
