@@ -1,8 +1,9 @@
-#include<iostream>
-#include<limits>
+#include <bits/stdc++.h>
 using namespace std;
 int main()
 {
-
-    cout<<sizeof(long double) ;
+    int a, b;
+    a = -2;
+    __pop_count(a);
+    cout << (a >> 1) << endl;
 }
