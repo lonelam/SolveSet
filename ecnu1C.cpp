@@ -8,10 +8,12 @@ int n, m;
 
 char grid[maxn][maxn];
 int x, y, k;
+
 bool solve()
 {
   for (int i = 1; i < x; i++)
   {
+
     for (int j = 1; j <= m; j++)
     {
       cout << "*";
