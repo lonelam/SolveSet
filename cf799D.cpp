@@ -3,7 +3,7 @@ using namespace std;
 typedef long long ll;
 typedef long double ld;
 const int inf = 0x3f3f3f3f;
-const int maxn = 100000 + 10;
+const int maxn = 200000 + 10;
 bool dp[maxn];
 int f[maxn];
 int a, b, h, w, n;
