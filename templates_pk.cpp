@@ -8,27 +8,11 @@
 //DLX dancing link
 //Accurate Cover
 /* ***********************************************
-Author        :kuangbin
 Index starts from 1. 横纵坐标都从1开始
 Be conducted by 外部调用 dance(0)
 ansd should be 为 ans数组的size
 the answer is in ans数组 array存了答案
-
 ************************************************ */
-#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <string.h>
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <queue>
-#include <set>
-#include <map>
-#include <string>
-#include <math.h>
-#include <stdlib.h>
-#include <time.h>
-using namespace std;
 const int maxnode = 100010;
 const int MaxM = 1010;
 const int MaxN = 1010;
@@ -128,21 +112,6 @@ Author        :kuangbin
 ansd为ans数组的size
 ans数组存了答案
 *************************************************/
-#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include<functional>
-#include <string.h>
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <queue>
-#include <set>
-#include <map>
-#include <string>
-#include <math.h>
-#include <stdlib.h>
-#include <time.h>
-using namespace std;
 const int inf = 0x3f3f3f3f;
 const int maxnode = 100010;
 const int maxn = 1010;
@@ -295,14 +264,6 @@ struct DLX
 DLX gg;
 
 //Dijkstra, no need to explain, just in case
-#include<iostream>
-#include<vector>
-#include<cstring>
-#include<functional>
-#include<algorithm>
-#include<string>
-#include<queue>
-using namespace std;
 typedef pair<int, int> pii;
 const int maxn = 10005;
 int dis[maxn];
@@ -359,7 +320,6 @@ void addedge(int u, int v, int w)
 //Some Maxi(Mini)mize Tools
 
 //Bidirectional Connected Component
-
 
 int pre[maxn], iscur[maxn], bccno[maxn], dfs_clock, bcc_cnt;
 vector<int> G[maxn], bcc[maxn];
@@ -470,10 +430,373 @@ int dfs(int u, int fa)
     return lowu;
 }
 
+//splay tree
+
+typedef long long ll;
+typedef long double ld;
+const int inf = 0x3f3f3f3f;
+const int maxn = 200010;
+int pre[maxn], ch[maxn][2], key[maxn], size[maxn];
+int root, tot1;
+int mx[maxn];
+int s[maxn], tot2;
+int a[maxn];
+int n, q;
+void newnode(int & r, int father, int k)
+{
+    if (tot2) r = s[tot2--];
+    else r = ++tot1;
+    pre[r] = father;
+    ch[r][0] = ch[r][1] = 0;
+    key[r] = k;
+    mx[r] = k;
+    size[r] = 1;
+}
+
+void pushup(int r)
+{
+    int lson = ch[r][0], rson = ch[r][1];
+    size[r] = size[lson] + size[rson] + 1;
+    mx[r] = max({key[r], mx[lson], mx[rson]});
+}
+void build(int &x, int l, int r, int father)
+{
+    if (l > r) return;
+    int mid = (l + r) / 2;
+    newnode(x, father, a[mid]);
+    build(ch[x][0], l, mid - 1, x);
+    build(ch[x][1], mid + 1, r, x);
+    pushup(x);
+}
+
+void init()
+{
+    root = tot1 = tot2 = 0;
+    ch[root][0] = ch[root][1] = size[root] = pre[root] = 0;
+    key[root] = mx[root] = -inf;
+    newnode(root, 0, -1);
+    newnode(ch[root][1], root, -1);
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &a[i]);
+    }
+    build(ch[ch[root][1]][0], 0, n - 1,ch[root][1]);
+    pushup(ch[root][1]);
+    pushup(root);
+}
+
+
+void rotate(int x, int d)
+{
+    const int y = pre[x];
+    ch[y][!d] = ch[x][d];
+    if (ch[x][d]) pre[ch[x][d]] = y;
+    pre[x] = pre[y];
+    if (ch[pre[y]][0] == y) ch[pre[x]][0] = x;
+    else if (ch[pre[y]][1] == y) ch[pre[x]][1] = x;
+    pre[y] = x;
+    ch[x][d] = y;
+    pushup(y);
+}
+void splay(int r, int goal)
+{
+    while(pre[r] != goal)
+    {
+        if (pre[pre[r]] == goal)
+        {
+            rotate(r, ch[pre[r]][0] == r);
+        }
+        else
+        {
+            int y = pre[r];
+            int kind = ch[pre[y]][0] == y;
+            if (ch[y][kind] == r)
+            {
+                rotate(r, !kind);
+                rotate(r, kind);
+            }
+            else
+            {
+                rotate(y, kind);
+                rotate(r, kind);
+            }
+        }
+    }
+    pushup(r);
+    if (goal == 0) root = r;
+}
+
+int getkth(int r, int k)
+{
+    int t = size[ch[r][0]] + 1;
+    if (t == k) return r;
+    if (t > k) return getkth(ch[r][0], k);
+    else return getkth(ch[r][1], k - t);
+} 5 
+
+
+int getmax(int pos, int tot)
+{
+    splay(getkth(root, pos), 0);
+    splay(getkth(root, pos + tot + 1), root);
+    return mx[ch[ch[root][1]][0]];
+}
+
+void update(int pos, int to)
+{
+    splay(getkth(root, pos), 0);
+    key[root] = to;
+    pushup(root);
+}
+
+// FFT
+
+typedef long long ll;
+typedef double ld;
+int n;
+int bmask, blen;
+const ld pi = M_PI;
+void init()
+{
+	bmask = 1;
+	blen = 1;
+	while (bmask < n)
+	{
+		++blen;
+		bmask <<= 1;
+	}
+	bmask <<= 1;
+}
+inline int bitrev(int x)
+{
+	int r = 0;
+	for (int i = 0; i < blen; i++)
+	{
+		r <<= 1;
+		r |= x & 1;
+		x >>= 1;
+	}
+	return r;
+}
+
+complex<ld> A[maxn], B[maxn], C[maxn];
+void FFT(complex<ld> * alpha, int r = 1)
+{
+	for (int i = 0; i < bmask; i++)
+	{
+		int revi = bitrev(i);
+		if (i < revi) swap(alpha[i], alpha[revi]);
+	}
+	for (int k = 2; k <= bmask; k <<= 1)
+	{
+		int h = k >> 1;
+		complex<ld> omega_n(cos(2.0 * pi / k * r), sin(2.0 * pi / k * r));
+		for (int i = 0; i < bmask; i += k)
+		{
+			int hi = h + i;
+			complex<ld> omega(1,0);
+			for (int j = i; j < hi; j++)
+			{
+				complex<ld> t = alpha[j + h] * omega;
+				alpha[j + h] = alpha[j] - t;
+				alpha[j] = alpha[j] + t;
+				omega *= omega_n;
+			}
+		}
+	}
+	if (r == -1)
+	{
+		for (int i = 0; i < bmask; i++)
+		{
+			alpha[i] /= (ld)bmask;
+		}
+	}
+}
 
 
 
+//Dinic Net flow
 
+typedef long long ll;
+struct edge
+{
+    int u, v;
+    ll cap, flow;
+    edge() {}
+    edge(int u, int v, ll cap):u(u), v(v), cap(cap), flow(0){}
+};
 
+struct dinic
+{
+    int n;
+    vector<edge> es;
+    vector<vector<int> > g;
+    vector<int> d, pt;
+    dinic(int n) : n(n), es(0), g(n), d(n), pt(n) {}
+    void addedge(int u, int v, ll cap)
+    {
+        if (u != v)
+        {
+            es.push_back(edge(u, v, cap));
+            g[u].push_back(es.size() - 1);
+            es.push_back(edge(v, u, 0));
+            g[v].push_back(es.size() - 1);
+        }
+    }
+    bool bfs(int S, int T)
+    {
+        queue<int> q;
+        q.push(S);
+        fill (d.begin(), d.end(), n + 1);
+        d[S] = 0;
+        while(!q.empty())
+        {
+            int u = q.front();
+            q.pop();
+            if (u == T) break;
+            for (int k = 0; k < g[u].size(); k++)
+            {
+                edge & e = es[g[u][k]];
+                if (e.flow < e.cap && d[e.v] > d[e.u] + 1)
+                {
+                    d[e.v] = d[e.u] + 1;
+                    q.push(e.v);
+                }
+            }
+        }
+        return d[T] != n + 1;
+    }
 
+    ll dfs(int u, int T, ll flow = -1)
+    {
+        if (u == T || flow == 0) return flow;
+        for (int & i = pt[u]; i < g[u].size();++i)
+        {
+            edge & e = es[g[u][i]];
+            edge & oe = es[g[u][i] ^ 1];
+            if (d[e.v] == d[e.u] + 1)
+            {
+                ll amt = e.cap - e.flow;
+                if (flow != -1 && amt > flow) amt = flow;
+                if (ll pushed = dfs(e.v, T, amt))
+                {
+                    e.flow += pushed;
+                    oe.flow -= pushed;
+                    return pushed;
+                }
+            }
+        }
+        return 0;
+    }
+    ll maxflow(int S, int T)
+    {
+        ll total = 0;
+        while(bfs(S,T))
+        {
+            fill(pt.begin(), pt.end(), 0);
+            while(ll flow = dfs(S, T))
+                total += flow;
+        }
+        return total;
+    }
+};
 
+//AC 自动机
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+const int inf = 0x3f3f3f3f;
+
+/*
+基于HDOJ 2222 的 AC自动机
+文本串对多个模板串的查找
+*/
+
+const int maxn=610000;
+const int chsize = 26;
+int ch[maxn][chsize],fail[maxn],flg[maxn], vis[maxn];
+int root,sz;
+char str[1000100];
+
+int newnode()
+{
+	memset(ch[sz],-1,sizeof(ch[sz]));
+	flg[sz++]=0;
+	return sz-1;
+}
+
+void init()
+{
+	sz=0;
+	root=newnode();
+}
+
+void insert(char str[])
+{
+	int len=strlen(str);
+	int now=root;
+	for(int i=0;i<len;i++)
+	{
+		int& temp=ch[now][str[i]-'a'];
+		if(temp==-1) temp=newnode();
+		now=temp;
+	}
+	flg[now]++;
+}
+
+void build()
+{
+	queue<int> q;
+	fail[root]=root;
+
+	for(int i=0;i<26;i++)
+	{
+		int& temp=ch[root][i];
+		if(temp==-1) temp=root;
+		else
+		{
+			fail[temp]=root;
+			q.push(temp);
+		}
+	}
+	while(!q.empty())
+	{
+		int now=q.front(); q.pop();
+		//// 嵌套串
+		if(flg[fail[now]]) flg[now]++;
+		for(int i=0;i<chsize;i++)
+		{
+			if(ch[now][i]==-1)
+				ch[now][i]=ch[fail[now]][i];
+			else
+			{
+				fail[ch[now][i]]=ch[fail[now]][i];
+				q.push(ch[now][i]);
+			}
+		}
+	}
+}
+
+int query(char str[])
+{
+    int len=strlen(str);
+    int now=root;
+    int ret=0;
+	memset(vis, 0,sizeof(vis));
+    for(int i=0;i<len;i++)
+    {
+        now=ch[now][str[i]-'a'];
+        int temp=now;
+        while(temp!=root&&~flg[temp] && !vis[temp])
+        {
+            ret+=flg[temp];
+			//one enough
+            flg[temp]=-1;
+			vis[temp] = 1;
+            temp=fail[temp];
+        }
+    }
+    return ret;
+}
