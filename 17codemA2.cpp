@@ -8,57 +8,9 @@ const int inf = 0x3f3f3f3f;
 const int maxn = 55;
 char a[maxn];
 char b[maxn];
-int aL, aR, bL, bR, rem;
 int n, m;
-bool dfs(char pre = '$', int head = 0)
-{
-  if (rem == 0) return true;
-  rem--;
-  if (head == 0)
-  {
-    if (aL < aR)
-    {
-      aL++;
-      if (dfs(a[aL - 1], 1))
-      {
-        return true;
-      }
-      aL--;
-    }
-    if (bL < bR)
-    {
-      bL++;
-      if (dfs(b[bL - 1], 1))
-      {
-        return true;
-      }
-      bL--;
-    }
-  }
-  else if (head == 1)
-  {
-    if (aL < aR && a[aR - 1] == pre)
-    {
-      aR--;
-      if (dfs('$', 0))
-      {
-        return true;
-      }
-      aR++;
-    }
-    else if (bL < bR && b[bR - 1] == pre)
-    {
-      bR--;
-      if (dfs('$', 0))
-      {
-        return true;
-      }
-      bR++;
-    }
-  }
-  rem++;
-  return false;
-}
+bool valid[maxn][maxn][maxn][maxn];
+
 int main()
 {
   int T;
@@ -70,25 +22,34 @@ int main()
       scanf("%s", b);
       n = strlen(a);
       m = strlen(b);
+      memset(valid, 0, sizeof(valid));
       int ans = 1;
-      for (int len = n + m; len > 1 && ans == 1; len--)
+      for (int i = 0; i <= n; i++)
       {
-        for (int i = 0; i < n && ans == 1; i++)
+        for (int j = 0; j <= m; j++)
         {
-          for (int j = 0; j < m && ans == 1; j++)
+          valid[i][i + 1][j][j] = true;
+          valid[i][i][j][j + 1] = true;
+          valid[i][i][j][j] = true;
+        }
+      }
+      for (int alen = 1; alen <= n; alen++)
+      {
+        for (int i = 0; i + alen <= n; i++)
+        {
+          for (int blen = 1; blen <= m; blen++)
           {
-            for (int k = 0; k <= n && ans == 1; k++)
+            for (int j = 0; j + blen <= m; j++)
             {
-              aL = i;
-              bL = j;
-              aR = i + k;
-              bR = j + len - k;
-              if (aR > n || bR > m) continue;
-              rem = len;
-              if (dfs())
+              if (alen > 1 && a[i] == a[i + alen - 1] && valid[i + 1][i + alen - 1][j][j + blen])
               {
-                ans = len;
+                valid[i][i + alen][j][j + blen] = true;
               }
+              else if (a[i] == b[j + blen - 1] && valid[i + 1][i + alen][j][j + blen - 1])
+              {
+                valid[i][i + alen][j][j + blen] = true;
+              }
+              else if (a[i + alen - 1] == b[j] && valid[i][i + alen - 1][j][j + blen])
             }
           }
         }
