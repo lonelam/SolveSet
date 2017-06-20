@@ -1,3 +1,4 @@
+
 #define _USE_MATH_DEFINES
 #include <bits/stdc++.h>
 using namespace std;
@@ -29,7 +30,6 @@ bool dfs(char pre = '$', int head = 0)
       bL++;
       if (dfs(b[bL - 1], 1))
       {
-
         return true;
       }
       bL--;
@@ -40,7 +40,7 @@ bool dfs(char pre = '$', int head = 0)
     if (aL < aR && a[aR - 1] == pre)
     {
       aR--;
-      if (dfs(a[aR], 0))
+      if (dfs('$', 0))
       {
         return true;
       }
@@ -49,7 +49,7 @@ bool dfs(char pre = '$', int head = 0)
     else if (bL < bR && b[bR - 1] == pre)
     {
       bR--;
-      if (dfs(b[bR], 0))
+      if (dfs('$', 0))
       {
         return true;
       }
