@@ -8,6 +8,7 @@ const int maxn = 100000;
 int dp[maxn];
 int main()
 {
+  dp[]
   for (int i = 3; i < 80; i++)
   {
     dp[i] = dp[i - 2] * 2 + dp[i - 1];
@@ -15,6 +16,6 @@ int main()
   int n;
   while(cin >> n)
   {
-    cout << dp[n][1] << endl;
+    cout << dp[n] << endl;
   }
 }
