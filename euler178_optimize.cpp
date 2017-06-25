@@ -51,6 +51,7 @@ ostream & operator << (ostream & out, const BigInteger & x)
   return out;
 }
 typedef BigInteger ll;
+//i len, zero occupied, first digit
 ll dp[maxn][2][10];
 ll up[maxn][2];
 int n;
@@ -60,4 +61,66 @@ int main()
 {
   cin.tie(nullptr);
   ios::sync_with_stdio(false);
+  scanf("%s", k);
+  int n = strlen(k);
+  for (int i = n - 1; i >= 0; i--)
+  {
+    if (k[i] != '0')
+    {
+      k[i]--;
+      break;
+    }
+    else
+    {
+      k[i] = '9';
+    }
+  }
+  int m = n;
+  if (k[0] == '0')
+  {
+    n--;
+  }
+  for (int i = 0; i < n; i++)
+  {
+    K[m - i - 1] = k[i] - '0';
+  }
+  for (int i = 1; i < n; i++)
+  {
+    for (int st = 0; st < 2; st++)
+    {
+      for (int j = 0; j < 10; j++)
+      {
+        if (j + 1 < 10)
+        {
+          dp[i + 1][st][j + 1] += dp[i][st][j];
+        }
+        if (j - 1 >= 0)
+        {
+          dp[i + 1][(j-1)?st:1][j - 1] += dp[i][st][j];
+        }
+      }
+      if (K[i] >= 1)
+      {
+        if (K[i] - 1 < K[i - 1])
+        {
+          up[i + 1][st] += dp[i][st][K[i] - 1];
+        }
+        else if (K[i] - 1 == K[i - 1])
+        {
+          up[i + 1][st] += up[i][st];
+        }
+      }
+      if (K[i] + 1 < 10)
+      {
+        if (K[i] + 1 < K[i - 1])
+        {
+          up[i + 1][(K[i])?st:1] += dp[i][st][K[i] + 1];
+        }
+        else if (K[i] + 1 == K[i-1])
+        {
+          up[i + 1][K[i]?st:1] += up[i][st];
+        }
+      }
+    }
+  }
 }
