@@ -1,9 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
+template<typename T>
 class acmer
 {
 public:
-    string name;
+    T name;
     int codeforces_score;
     int qq;
     bool is_master()
@@ -13,11 +14,11 @@ public:
 };
 int main()
 {
-    acmer nerd;
-    nerd.name = "lonelam";
+    acmer<int> nerd;
+    nerd.name = 12345;//"lonelam";
     nerd.codeforces_score = 0;
     nerd.qq = 514334426;
-    acmer leader = {"onisac", 1900, 10000};
+    acmer<string> leader = {"onisac", 1900, 10000};
     cout << nerd.name << " "
     << nerd.is_master() << endl;
     cout << leader.name << " "

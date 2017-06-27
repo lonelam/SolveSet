@@ -17,4 +17,7 @@ int main()
     cout << call_member() << std::endl;
     using namespace std;
     cout << alpha::member << endl;
+    int & member_shadow = alpha::member;
+    member_shadow = 100000;
+    cout << alpha::member << endl;
 }

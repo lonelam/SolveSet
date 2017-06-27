@@ -13,9 +13,16 @@ int main()
     }
     cout << endl;
     sort(v.begin(), v.end(), greater<int>());
+   // int & x = *v.begin() + i;
+    for (int & x : v)
+    {
+        x = 1000;
+        cout << x <<",";
+    }
+    cout << endl;
     for (int x : v)
     {
-        cout << x <<",";
+        cout <<x  << ",";
     }
     cout << endl;
 }

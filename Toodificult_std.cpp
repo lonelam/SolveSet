@@ -39,8 +39,6 @@ map<int, int> isopen;
 int main()
 {
   int n, q;
-  freopen("9.in", "r", stdin);
-  freopen("9.out", "w", stdout);
   while(cin >> n >> q)
   {
       string tmp;
@@ -64,7 +62,7 @@ int main()
         }
         else
         {
-          int cnt = cont[tmp].size() - 1;
+          int cnt = cont[tmp].size();
           for (int x: cont[tmp])
           {
             if (--cnt)
