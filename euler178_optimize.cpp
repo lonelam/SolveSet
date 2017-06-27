@@ -51,9 +51,9 @@ ostream & operator << (ostream & out, const BigInteger & x)
   return out;
 }
 typedef BigInteger ll;
-//i len, zero occupied, first digit
-ll dp[maxn][2][10];
-ll up[maxn][2];
+//i len, 0=zero not occupied 1=zero occupied 2=fulloccupied, first digit
+ll dp[maxn][4][10];
+ll up[maxn][4];
 int n;
 char k[maxn];
 int K[maxn];
@@ -84,43 +84,72 @@ int main()
   {
     K[m - i - 1] = k[i] - '0';
   }
+  ll ans = 0;
+  dp[1][1][0] = 1;
+  for (int i = 1; i < 9; i++)
+  {
+    dp[1][0][i] = 1;
+  }
+  dp[1][2][9] = 1;
+  if (K[0] == 0) up[1][1] = 1;
+  else if (K[0] == 9) up[1][2] = 1;
+  else up[1][0] = 1;
   for (int i = 1; i < n; i++)
   {
-    for (int st = 0; st < 2; st++)
+    for (int st = 0; st < 4; st++)
     {
       for (int j = 0; j < 10; j++)
       {
         if (j + 1 < 10)
         {
-          dp[i + 1][st][j + 1] += dp[i][st][j];
+          if (j == 8) dp[i+1][st|2][j+1] += dp[i][st][j];
+          else dp[i + 1][st][j + 1] += dp[i][st][j];
         }
         if (j - 1 >= 0)
         {
-          dp[i + 1][(j-1)?st:1][j - 1] += dp[i][st][j];
+          dp[i + 1][(j-1)?st:st|1][j - 1] += dp[i][st][j];
         }
       }
       if (K[i] >= 1)
       {
         if (K[i] - 1 < K[i - 1])
         {
-          up[i + 1][st] += dp[i][st][K[i] - 1];
+          if(K[i]==9) up[i+1][st|2] += dp[i][st][K[i]-1];
+          else up[i + 1][st] += dp[i][st][K[i] - 1];
         }
         else if (K[i] - 1 == K[i - 1])
         {
-          up[i + 1][st] += up[i][st];
+          if (K[i]==9) up[i+1][st|2] += up[i][st];
+          else up[i + 1][st] += up[i][st];
         }
       }
       if (K[i] + 1 < 10)
       {
         if (K[i] + 1 < K[i - 1])
         {
-          up[i + 1][(K[i])?st:1] += dp[i][st][K[i] + 1];
+          up[i + 1][K[i]?st:st|1] += dp[i][st][K[i] + 1];
         }
         else if (K[i] + 1 == K[i-1])
         {
-          up[i + 1][K[i]?st:1] += up[i][st];
+          up[i + 1][K[i]?st:st|1] += up[i][st];
         }
       }
     }
+    for (int j = 1; j < 10; j++)
+    {
+      ans += dp[i][3][j];
+      //cout << j<<"  "<<dp[i][3][j] << endl;
+    }
+  //  cout << ans << endl;
   }
+  ans += up[n][3];
+  //cout << up[n][2] << endl;
+  for (int i = 1; i < K[n-1]; i++)
+  {
+    ans += dp[n][3][i];
+  }
+  cout << ans << endl;
 }
+/*
+1000000000000
+*/

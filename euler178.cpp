@@ -216,10 +216,13 @@ int main()
     for (int j = 1; j < 10; j++)
     {
       ans += dp[i & 1][(1 << 10) - 1][j];
+//      cout <<j<<"  "<< dp[i&1][(1<<10)-1][j]<<endl;
     }
-  //  cout << ans << endl;
+
+//    cout << ans << endl;
   }
   ans += up[n & 1][(1 << 10) - 1];
+//  cout << up[n&1][(1<<10)-1]<<endl;
   for (int i = 1; i < K[n - 1]; i++)
   {
     ans += dp[n & 1][(1 << 10) - 1][i];
