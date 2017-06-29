@@ -17,7 +17,7 @@ int main()
       for (ll b = 2; b <= n; b++)
       {
         o *= a;
-        if (cnt.find(o)!=cnt.end()) cout << o << endl;
+      //  if (cnt.find(o)!=cnt.end()) cout << o << endl;
         cnt.insert(o);
       }
     }
