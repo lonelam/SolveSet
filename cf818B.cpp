@@ -26,7 +26,7 @@ int main(){
     {
       continue;
     }
-    else if (rem.find(ai) != rem.end())
+    else if (ans[l[i-1]] == -1 && rem.find(ai) != rem.end())
     {
       ans[l[i-1]] = ai;
       rem.erase(ai);
@@ -36,6 +36,7 @@ int main(){
       cout << -1 << endl;
       return 0;
     }
+    //cout << ans[l[i-1]] << endl;
   }
   for (int i = 0; i < n; i++)
   {
