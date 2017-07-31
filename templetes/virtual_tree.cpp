@@ -51,15 +51,15 @@ void build()
 {
   static int stk[maxn];
   sort(key_node, key_node + kcnt, cmp);
-  int p = 0;
-  for (int i = 1; i < kcnt; i++)
-  {
-    if (lca(key_node[i], key_node[p]) != key_node[p])
-    {
-      key_node[++p] = key_node[i];
-    }
-  }
-  kcnt = p + 1;
+  // int p = 0;
+  // for (int i = 1; i < kcnt; i++)
+  // {
+  //   if (lca(key_node[i], key_node[p]) != key_node[p])
+  //   {
+  //     key_node[++p] = key_node[i];
+  //   }
+  // }
+  // kcnt = p + 1;
   int sz = 0;
   stk[sz++] = 0;
   for (int i = 0; i < kcnt; i++)
