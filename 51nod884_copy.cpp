@@ -1,51 +1,57 @@
+
 #include<iostream>
-#include<cmath>
 using namespace std;
-const int MOD=1e4+7;
 typedef long long ll;
-ll f[MOD+5];
-ll inv[MOD+5];
-ll quick_multi(ll x,ll y)
+const int MOD=  10007;
+
+//乘法逆元辅助函数
+ll ex_gcd(ll a,ll b,ll &x,ll &y)
 {
-	ll ans=1;
-	while(y!=0)
+	if(b==0)
 	{
-		if(y&1) ans=(ans*x)%MOD;
-		x=(x*x)%MOD;
-		y>>=1;
+		x=1;
+		y=0;
+		return a;
 	}
-	return ans;
-}
-void init()
-{
-	f[1]=1;
-	for(int i=2;i<MOD;i++)
+	else
 	{
-		f[i]=f[i-1]*i%MOD;
-	}
-	inv[MOD-1]=quick_multi(f[MOD-1],MOD-2);
-	for(int i=MOD-2;i>=1;i--)
-	{
-		inv[i]=inv[i+1]*(i+1)%MOD;
+		ll r=ex_gcd(b,a%b,x,y);
+		ll tmp=x;
+		x=y;
+		y=tmp-a/b*y;
 	}
 }
+//该函数返回乘法逆元
+ll multi_reverse(ll b,ll p)//b是除法中的除数 相当于 a/b mod p中的b p是除法中的模数
+{
+	//x是乘法逆元
+	ll x,y;
+	ex_gcd(b,p,x,y);
+	//处理得出最小正整数解
+	x=(x%p+p)%p;
+	return x;
+}
+//使用注意 a / b 先取模
 ll c(ll m,ll n)
 {
-	if(n<m) return 0;
-	return f[n]*inv[m]%MOD*inv[n-m]%MOD;
+	if(n<m) return 0 ;
+	ll ans=1;
+	ll div=1;
+	for(ll i=n;i>=1;i--) ans=ans*i%MOD;
+	for(ll i=m;i>=1;i--) div=div*i%MOD;
+	for(ll i=n-m;i>=1;i--) div=div*i%MOD;
+	ll x,y;
+	x=multi_reverse(div,MOD);
+	return ans*x%MOD;
 }
-ll lucas(ll m,ll n)
-{
-	if(m!=0) return c(m%MOD,n%MOD)*lucas(m/MOD,n/MOD)%MOD;
-	else return 1;
-}
+
 int main()
 {
-	ll n;
-	init();
+	ll n,m;
 	while(cin >> n)
 	{
 		n--;
-		cout << (lucas(n,n*2)+MOD-lucas(n-1,n*2))%MOD*2%MOD<<endl;
+//		 printf("%d\n",(c(n,n<<1)+MOD-c(n-1,n<<1))%MOD*2%MOD);
+		printf("%d\n", (c(n,2*n)*2%MOD  - c(n-1,2*n)*2%MOD+ MOD)  % MOD);
 	}
 }

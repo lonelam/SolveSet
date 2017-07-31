@@ -23,7 +23,7 @@ LL quick_mod(LL a, LL b, LL c)
     {
         if(b & 1)
             ans = (ans*a)%c;
-        b>>=1;
+        // b>>=1;
         a = (a*a)%c;
     }
     return ans;
