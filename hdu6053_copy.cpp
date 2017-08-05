@@ -31,7 +31,7 @@ int power( int x , int y ){
 }
 
 int main( int argc , char * argv[] ){
-  // freopen("C:\\hdsummer_data\\r2\\data\\1009.in", "r", stdin);
+  freopen("C:\\hdsummer_data\\r2\\data\\1009.in", "r", stdin);
 	//freopen( "data.in" , "r" , stdin );
 	//freopen( "data.out" , "w" , stdout );
 	scanf( "%d" , & T );

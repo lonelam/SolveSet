@@ -17,6 +17,8 @@ const int inf = 0x3f3f3f3f;
 int lsb_p(int h1, int h2)
 {
     int ans = h1 ^ h2;
+    return __builtin_ffs(ans) - 1;
+    return 0;
     int i = 0;
     while(ans)
     {
@@ -54,14 +56,14 @@ void spfa()
         {
             const int nex_h = pre_h | (1 << i);
 
-            if(!(pre_h & (1 << i)))//pre没有做i
+            if(!(pre_h & (1 << i)))//pre没锟斤拷锟斤拷i
             {
 
                 int tt = t + cost[i];
                 int tdp = dp[pre_h];
                 for(int j = 0; j < N; j++)
                 {
-                    //pre没做j
+                    //pre没锟斤拷j
                     if(!(pre_h & (1 << j)) && ddl[j] < tt)
                     {
                         if(ddl[j] < t)
