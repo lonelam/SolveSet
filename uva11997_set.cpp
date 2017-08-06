@@ -9,6 +9,21 @@ const int maxn = 100000;
 const int maxk = 800;
 int k;
 int A[maxk][maxk];
+void merge(int j)
+{
+  priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> Q;
+  sort(A[j], A[j] + k);
+  for (int i = 0; i < k; i++)
+  {
+    Q.push({A[0][i] + A[j][0], 0});
+  }
+  for (int i = 0; i < k; i++)
+  {
+    pair<int,int> tmp = Q.top();Q.pop();
+    A[0][i] = tmp.first;
+    Q.push({tmp.first - A[j][tmp.second] + A[j][tmp.second + 1], tmp.second + 1});
+  }
+}
 int main()
 {
   // freopen("data.in", "r", stdin);
@@ -22,41 +37,15 @@ int main()
         scanf("%d", A[i] + j);
       }
     }
-    multiset<int,greater<int>> cur, nex;
-    cur.insert(0);
+    sort(A[0], A[0] + k);
+    for (int i = 1; i < k; i++)
+    {
+      merge(i);
+    }
     for (int i = 0; i < k; i++)
     {
-      for (int x: cur)
-      {
-        nex.insert(x + A[i][0]);
-      }
-      for (int j = 0; j < k; j++)
-      {
-        for (int x: cur)
-        {
-          nex.insert(x + A[i][j]);
-          if(nex.size() > k)
-          {
-            nex.erase(nex.begin());
-          }
-        }
-      }
-      cur.clear();
-      swap(nex, cur);
+      printf("%d%c", A[0][i], (i==k-1)?'\n':' ');
     }
-    int f = 0;
-    for (multiset<int,greater<int> >::reverse_iterator i = cur.rbegin(); i != cur.rend(); i++)
-    {
-      if (f)
-      {
-        printf(" ");
-      }
-      else
-      {
-        f = 1;
-      }
-      printf("%d", *i);
-    }
-    printf("\n");
+
   }
 }
