@@ -1,15 +1,12 @@
+#define _CRT_SECURE_NO_WARNINGS
+#define _USE_MATH_DEFINES
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
 typedef long double ld;
 const int inf = 0x3f3f3f3f;
 
-/*
-基于HDOJ 2222 的 AC自动机
-文本串对多个模板串的查找
-*/
-
-const int maxn = 200;
+const int maxn= 200 + 5;
 const int chsize = 2;
 int ch[maxn][chsize],fail[maxn],flg[maxn], vis[maxn];
 int root,sz;
@@ -34,7 +31,7 @@ void insert(char str[])
 	int now=root;
 	for(int i=0;i<len;i++)
 	{
-		int& temp=ch[now][str[i]-'a'];
+		int& temp=ch[now][str[i]-'0'];
 		if(temp==-1) temp=newnode();
 		now=temp;
 	}
@@ -73,7 +70,7 @@ void build()
 		}
 	}
 }
-
+ll dfs(ll )
 int query(char str[])
 {
     int len=strlen(str);
@@ -82,7 +79,7 @@ int query(char str[])
 	memset(vis, 0,sizeof(vis));
     for(int i=0;i<len;i++)
     {
-        now=ch[now][str[i]-'a'];
+        now=ch[now][str[i]-'0'];
         int temp=now;
         while(temp!=root&&~flg[temp] && !vis[temp])
         {

@@ -21,21 +21,9 @@ ll p_m(ll base, ll index)
 }
 int main()
 {
-  cin >> m >> p;
   ll ans = 0;
-  for (ll i = 1; i < p; i++)
+  for (int d = 2; d < 100; d++)
   {
-    for (ll x = 1; x < p; x++)
-    {
-      for (ll y = 1; y <= m; y++)
-      {
-        if (p_m(x + y, i) == p_m(x, i))
-        {
-          cout << "i="<<i<<",x="<<x<<",y="<<y <<endl;
-          ans += i;
-        }
-      }
-    }
+    cout << d * log10(d) << endl;
   }
-  cout << "ans="<< ans << endl;
 }

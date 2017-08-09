@@ -29,7 +29,7 @@ void ask(int x,int a,int b,int d){
   if(d>mid)ask(x<<1|1,mid+1,b,d);
 }
 int main(){
-  freopen("C:\\hdsummer_data\\r4\\data\\1004.in","r",stdin);
+  // freopen("C:\\hdsummer_data\\r4\\data\\1004.in","r",stdin);
   scanf("%d",&Case);
   while(Case--){
     scanf("%d",&n);
