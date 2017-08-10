@@ -63,7 +63,6 @@ ll dfs(int st, int d, bool tracing = false, int last = -1)
 {
   if (tracing)
   {
-    last = 0;
   }
   ll appsum = 0;
   for (int i = 0; i < n; i++)
@@ -150,6 +149,7 @@ ll dfs(int st, int d, bool tracing = false, int last = -1)
           tst |= (1 << j.first);
         }
       }
+      for ()
     }
   }
 }

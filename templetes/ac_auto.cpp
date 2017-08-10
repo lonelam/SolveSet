@@ -9,8 +9,8 @@ const int inf = 0x3f3f3f3f;
 文本串对多个模板串的查找
 */
 
-const int maxn = 200;
-const int chsize = 2;
+const int maxn=610000;
+const int chsize = 26;
 int ch[maxn][chsize],fail[maxn],flg[maxn], vis[maxn];
 int root,sz;
 char str[1000100];
