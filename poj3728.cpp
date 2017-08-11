@@ -15,36 +15,32 @@ using namespace std;
 typedef long long ll;
 typedef long double ld;
 const int inf = 0x3f3f3f3f;
-const int maxn = 50000 + 100;
-const int maxk = 20;
-int price[maxn];
-vector<int> G[maxn];
-int dpup[maxn];
-int dpdown[maxn];
-int fa[maxk][maxn];
-void dfs(int cur, int p)
+const int maxn = 5e4 + 5;
+int s[maxn], t[maxn], d[maxn], p[maxn], ans[maxn];
+int h[maxn], q[maxn], g[maxn], f[maxn], mx[maxn], mi[maxn], up[maxn], dw[maxn];
+bool vis[maxn];
+int i, j, k, n, m, e;
+inline void add(int u, int v, int c, int h[])
 {
-  fa[0][cur] = p;
-  for (int k = 1; k < maxk; k++)
+  s[e] = u, t[e] = v, d[e] = c, p[e] = h[u], h[u] = e++;
+  s[e] = v, t[e] = u, d[e] = -c, p[e] = h[v], h[v] = e++;
+}
+int find(int x)
+{
+  if (f[x] == x) return x;
+  int y = f[x];
+  up[x] = max({mx[y] - mi[x], up[x], up[y]});
+  dw[x] = max({mx[x] - mi[y], dw[x], dw[y]});
+  mx[x] = max(mx[x], mx[y]);
+  mi[x] = min(mi[x], mi[y]);
+  return f[x];
+}
+void tarjan(int u)
+{
+  int i, v, x, y;
+  vis[f[u] = u] = 1;
+  for (i = q[u]; i; i = p[i])
   {
-    fa[k][cur] = fa[k-1][fa[k-1][cur]];
-  }
-  dpup[cur] = dpup[p];
-  dpdown[cur] = dpdown[cur];
-  if (price[cur] > price[p])
-  {
-    dpdown[cur] += price[cur] - price[p];
-  }
-  else
-  {
-    dpup[cur] += price[p] - price[cur];
-  }
-  for (int i = 0; i < G[cur].size(); i++)
-  {
-    int v = G[cur][i];
-    if (v != p)
-    {
-      dfs(v, cur);
-    }
+    if (vis[v=t[i]])
   }
 }

@@ -43,7 +43,7 @@ bool is_valid(int a, int b)
 
 }
 int main()
-{ 
+{
   while(cin >> n)
   {
     ll sumup = 0, sumdown = 0;
