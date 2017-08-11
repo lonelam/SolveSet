@@ -1,14 +1,26 @@
-#define _CRT_SECURE_NO_WARNINGS
 #define _USE_MATH_DEFINES
-#include <bits/stdc++.h>
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <cstdio>
+#include <cmath>
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <vector>
+#include <map>
+#include <set>
+#include <functional>
+#include <queue>
+#include <stack>
+#include <deque>
 using namespace std;
 typedef long long ll;
 typedef long double ld;
 const int inf = 0x3f3f3f3f;
-const int maxn = 100000;
 
 const ld eps = 1e-8;
-const ld PI = M_PI;
+const ld PI = acos(-1.0);
 int sgn(double x)
 {
   if (fabs(x) < eps) return 0;
@@ -91,3 +103,48 @@ bool inter(line l1, line l2)
     sgn((l2.s - l1.e) ^ (l1.s - l1.e)) * sgn((l2.e - l1.e) ^(l1.s - l1.e)) <= 0 &&
     sgn((l1.s - l2.e) ^ (l2.s - l2.e)) * sgn((l1.e - l2.e) ^ (l2.s - l2.e)) <= 0;
 }
+
+double xstart, ystart, xend, yend, xright, ytop, xleft, ybottom;
+bool check()
+{
+  if (xleft > xright)swap(xleft, xright);
+  if (ybottom > ytop) swap(ybottom , ytop);
+  if (xstart >= xleft && xstart <= xright && ystart >= ybottom && ystart <= ytop)
+  {
+    return true;
+  }
+  if (xend >= xleft && xend <= xright && yend >= ybottom && yend <= ytop)
+  {
+    return true;
+  }
+  line s(point(xstart, ystart), point(xend, yend));
+  point p0(xleft, ytop), p1(xright, ytop), p2(xright, ybottom), p3(xleft, ybottom);
+  if (inter(line(p0, p1), s) || inter(s, line(p1, p2)) || inter(s, line(p2, p3)) || inter(s, line(p3, p0)))
+  {
+    return true;
+  }
+  return false;
+}
+int main()
+{
+  int n;
+  scanf("%d", &n);
+  while(n--)
+  {
+    scanf("%lf%lf%lf%lf%lf%lf%lf%lf", &xstart, &ystart, &xend, &yend, &xleft, &ytop, &xright, &ybottom);
+    if (check())
+    {
+      printf("T\n");
+    }
+    else
+    {
+      printf("F\n");
+    }
+  }
+}
+/*
+1
+2 4 4 2 1 1 11 11
+
+
+*/
