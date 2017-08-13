@@ -9,17 +9,11 @@ const int maxn = 100000;
 int main()
 {
   freopen("data.in", "w", stdout);
-  cout << 10000 << endl;
+  cout << 20 << endl;
   srand(time(0));
-  for (int i = 0; i < 10000; i++)
+  for (int i = 0; i < 19; i++)
   {
-    for (int k = 0; k < 2; k++)
-    {
-      for (int j = 0; j < 4; j++)
-    {
-      cout << rand() % 100 << " ";
-    }
-    cout << endl;
+    cout << rand() % 10 <<" "<< rand() % 10  << " " << rand() % 2<< endl;
   }
-  }
+  cout << "1 1 0\n";
 }

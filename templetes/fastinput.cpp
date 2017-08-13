@@ -15,7 +15,6 @@ inline void rnext()
     if(++ps == pe)
         pe = (ps = buf)+fread(buf,sizeof(char),sizeof(buf)/sizeof(char),stdin);
 }
-
 template <class T>
 inline bool in(T &ans)
 {

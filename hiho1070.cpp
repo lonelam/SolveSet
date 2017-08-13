@@ -1,3 +1,4 @@
+
 #define _USE_MATH_DEFINES
 #include <bits/stdc++.h>
 using namespace std;
@@ -36,6 +37,24 @@ int query(int ql, int qr, int L = 0, int R = n, int o = 1)
   if (mid < qr) ret = min(ret, query(ql, qr, mid, R, o << 1 | 1));
   return ret;
 }
+void set2(int q, int w, int L = 0, int R = n, int o = 1)
+{
+  if (L + 1 == R)
+  {
+    _min[o]=  w;
+    return;
+  }
+  const int mid = (L + R) / 2;
+  if (q < mid)
+  {
+    set2(q, w, L, mid, o << 1);
+  }
+  else
+  {
+    set2(q, w, mid, R, o << 1 | 1);
+  }
+  pushup(o);
+}
 int main()
 {
   while(scanf("%d", &n) != EOF)
@@ -49,10 +68,18 @@ int main()
     scanf("%d", &Q);
     while(Q--)
     {
-      static int a, b;
-      scanf("%d%d", &a, & b);
-      a--;
-      printf("%d\n", query(a, b));
+      static int a, b, cmd;
+      scanf("%d%d%d", &cmd, &a, & b);
+      if (cmd)
+      {
+        a--;
+        set2(a, b);
+      }
+      else
+      {
+        a--;
+        printf("%d\n", query(a, b));
+      }
     }
   }
 }
