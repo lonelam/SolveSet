@@ -141,52 +141,6 @@ ll dist(int u, int v)
   int _lca = lca(u, v);
   return dis[u] + dis[v] - 2 * dis[_lca];
 }
-struct node
-{
-  int c, x, y;
-  bool operator<(const node & rhs) const
-  {
-    return depth[c] < depth[rhs.c];
-  }
-};
-node merge(const node & lhs, const node & rhs)
-{
-  int _lca = lca(lhs.c, rhs.c);
-  node res = {_lca, -1, -1};
-  if (lhs.x == -1)
-  {
-    res.x = rhs.x;
-  }
-  else if (rhs.x == -1)
-  {
-    res.x = lhs.x;
-  }
-  else if (dis[lhs.x] < dis[rhs.x])
-  {
-    res.x = lhs.x;
-  }
-  else
-  {
-    res.x = rhs.x;
-  }
-  if (lhs.y == -1)
-  {
-    res.y = rhs.y;
-  }
-  else if (rhs.y == -1)
-  {
-    res.y = lhs.y;
-  }
-  else if (dis[lhs.y] < dis[rhs.y])
-  {
-    res.y = lhs.y;
-  }
-  else
-  {
-    res.y = rhs.y;
-  }
-  return res;
-}
 vector<int> fac[maxn];
 struct query
 {
@@ -214,10 +168,11 @@ void solve()
   dfs(1, 1);
   for (int i = 1; i <= m; i++)
   {
-    static int G;
-    scanf("%d", &G);
+    static int gg;
+    in(gg);
+    // scanf("%d", &gg);
     fac[i].clear();
-    for (int j = 0; j < G; j++)
+    for (int j = 0; j < gg; j++)
     {
       static int tmp;
       in(tmp);
@@ -240,36 +195,26 @@ void solve()
   for (int i = 0; i < Q; i++)
   {
     if (i && qs[i].y == qs[i - 1].y && qs[i].x == qs[i - 1].x) {ans[qs[i].id] = ans[qs[i - 1].id];continue;}
-    priority_queue<node> st;
-    for (int j: fac[qs[i].x])
-    {
-      st.push({j, j, -1});
-    }
-    for (int j: fac[qs[i].y])
-    {
-      st.push({j, -1, j});
-    }
     ll tans = 0x3f3f3f3f3f3f3f3f;
-    while(st.size() > 1)
+    // cout << qs[i].x << " "<< qs[i].y << endl;
+    for (int j : fac[qs[i].x])
     {
-      node ta = st.top();st.pop();
-      node tb = st.top();st.pop();
-      node tc = merge(ta, tb);
-      if (tc.x != -1 && tc.y != -1)
+      for (int k : fac[qs[i].y])
       {
-        tans = min(tans, dist(tc.x, tc.y));
+        tans = min(tans, dist(j, k));
+        // cout << dist(j, k)<<endl;
       }
-      st.push(tc);
     }
     ans[qs[i].id] = tans;
   }
   for (int i = 0; i < Q; i++)
   {
-    printf("%I64d\n", ans[i]);
+    printf("%lld\n", ans[i]);
   }
 }
 int main()
 {
+  // freopen("data.in", "r", stdin);
   int T;
   while(in(T))
   {
