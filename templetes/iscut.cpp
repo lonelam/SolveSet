@@ -29,4 +29,3 @@ int dfs(int u, int fa)
     low[u] = lowu;
     return lowu;
 }
-
