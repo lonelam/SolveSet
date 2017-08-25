@@ -9,92 +9,139 @@
 324725 50959 7997 1 2069239
 
 */
-/*
-*Gauss.cpp
-*功能：列选主元消元法
+/**
+高斯消元求解线性方程组.
 */
-#include<stdio.h>
-#include"Gass.h"
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <algorithm>
+using namespace std;
 
-//高斯消元法（列选主元）
-void Gauss (double a[][MAXNUM],int n)
+///高斯消元模板
+const double eps = 1e-12;
+const int Max_M = 15;       ///m个方程,n个变量
+const int Max_N = 15;
+int m, n;
+double Aug[Max_M][Max_N+1]; ///增广矩阵
+bool free_x[Max_N];         ///判断是否是不确定的变元
+double x[Max_N];            ///解集
+
+int sign(double x){ return (x>eps) - (x<-eps);}
+
+/**
+返回值:
+-1 无解
+0 有且仅有一个解
+>=1 有多个解,根据free_x判断哪些是不确定的解
+*/
+int Gauss()
 {
     int i,j;
-    SelectColE(a,n);   //列选主元并消元成上三角
-    //回代求解
-    printf("上三角的结果\n");
-    printM(a,3);
-    for(i=n;i>=1;i--)
+    int row,col,max_r;
+    for(row=0,col=0; row<m&&col<n; row++,col++)
     {
-        for(j=i+1;j<=n;j++)
-            a[i][n+1]-=a[i][j]*a[j][n+1];
-        a[i][n+1]/=a[i][i];
-    }
-    return ;
-}
-//选择列主元并进行消元
-void SelectColE(double a[][MAXNUM],int n)
-{
-    int i,j,k,maxRowE;
-    double temp; //用于记录消元时的因数
-    for(j=1;j<=n;j++)
-    {
-        maxRowE=j;
-        for(i=j;i<=n;i++)
-            if(fabs(a[i][j])>fabs(a[maxRowE][j]))
-                maxRowE = i;
-        if(maxRowE!=j)
-            swapRow(a,j,maxRowE,n);   //与最大主元所在行交换
-        //消元
-        for(i=j+1;i<=n;i++)
+        max_r = row;
+        for(i = row+1; i < m; i++)  ///找到当前列所有行中的最大值(做除法时减小误差)
         {
-            temp =a[i][j]/a[j][j];
-            for(k=j;k<=n+1;k++)
-                a[i][k]-=a[j][k]*temp;
+            if(sign(fabs(Aug[i][col])-fabs(Aug[max_r][col]))>0)
+                max_r = i;
         }
-        printf("第%d列消元后：\n",j);
-        printM(a,3);
+        if(max_r != row)            ///将该行与当前行交换
+        {
+            for(j = row; j < n+1; j++)
+                swap(Aug[max_r][j],Aug[row][j]);
+        }
+        if(sign(Aug[row][col])==0)  ///当前列row行以下全为0(包括row行)
+        {
+            row--;
+            continue;
+        }
+        for(i = row+1; i < m; i++)
+        {
+            if(sign(Aug[i][col])==0)
+                continue;
+            double ta = Aug[i][col]/Aug[row][col];
+            for(j = col; j < n+1; j++)
+                Aug[i][j] -= Aug[row][j]*ta;
+        }
     }
-    return;
-}
-void swapRow(double a[][MAXNUM],int m,int maxRowE,int n)
-{
-    int k;
-    double temp;
-    for(k=m;k<=n+1;k++)
+    for(i = row; i < m; i++)    ///col=n存在0...0,a的情况,无解
     {
-        temp = a[m][k];
-        a[m][k] = a[maxRowE][k];
-        a[maxRowE][k] = temp;
+        if(sign(Aug[i][col]))
+            return -1;
     }
-    return ;
-}
-
-//测试函数
-int main()
-{
-    double a[4][MAXNUM];
-
-    int i,n,j;
-
-    a[1][1] = 0.001; a[1][2]=2.000;a[1][3]=3.000;a[1][4]=1.000;
-    a[2][1] = -1.000;a[2][2]=3.712;a[2][3]=4.623;a[2][4]=2.000;
-    a[3][1] = -2.000;a[3][2]=1.070;a[3][3]=5.643;a[3][4]=3.000;
-    Gauss (a,3);
-    for(i=1;i<=3;i++)
-        printf("X%d=%f\n",i,a[i][4]);
+    if(row < n)     ///存在0...0,0的情况,有多个解,自由变元个数为n-row个
+    {
+        for(i = row-1; i >=0; i--)
+        {
+            int free_num = 0;   ///自由变元的个数
+            int free_index;     ///自由变元的序号
+            for(j = 0; j < n; j++)
+            {
+                if(sign(Aug[i][j])!=0 && free_x[j])
+                    free_num++,free_index=j;
+            }
+            if(free_num > 1) continue;  ///该行中的不确定的变元的个数超过1个,无法求解,它们仍然为不确定的变元
+            ///只有一个不确定的变元free_index,可以求解出该变元,且该变元是确定的
+            double tmp = Aug[i][n];
+            for(j = 0; j < n; j++)
+            {
+                if(sign(Aug[i][j])!=0 && j!=free_index)
+                    tmp -= Aug[i][j]*x[j];
+            }
+            x[free_index] = tmp/Aug[i][free_index];
+            free_x[free_index] = false;
+        }
+        return n-row;
+    }
+    ///有且仅有一个解,严格的上三角矩阵(n==m)
+    for(i = n-1; i >= 0; i--)
+    {
+        double tmp = Aug[i][n];
+        for(j = i+1; j < n; j++)
+            if(sign(Aug[i][j])!=0)
+                tmp -= Aug[i][j]*x[j];
+        x[i] = tmp/Aug[i][i];
+    }
     return 0;
 }
-//输出矩阵
-void printM(double a[][MAXNUM], int n)
+///模板结束
+
+int main()
 {
-   int i,j;
-   for(i=1;i<=n;i++)
+    int i,j;
+    int t;
+    double a[12][12];
+    scanf("%d",&t);
+    while(t--)
     {
-        for(j=1;j<=n+1;j++)
+        memset(Aug,0.0,sizeof(Aug));
+        memset(x,0.0,sizeof(x));
+        memset(free_x,1,sizeof(free_x));    ///都是不确定的变元
+        for(i = 0; i < 12; i++)
+            for(j = 0; j < 12; j++)
+                scanf("%lf",&a[i][j]);
+        double sum=0;
+        for(int i=0;i<11;i++)
+            sum+=a[11][i]*a[11][i];
+        for(int i=0;i<11;i++)
         {
-            printf("%f ,",a[i][j]);
+              for(int j=0;j<11;j++)
+              {
+                  Aug[i][j]=2*(a[i][j]-a[11][j]);
+                  Aug[i][11]+=a[i][j]*a[i][j];
+              }
+              Aug[i][11]+=-a[i][11]*a[i][11]+a[11][11]*a[11][11]-sum;
         }
-        printf("\n");
+        m = n = 11;
+        Gauss();
+        for(int i = 0; i < n; i++)
+        {
+            printf("%.2lf",x[i]);
+            printf("%c",i==n-1?'\n':' ');
+        }
     }
+    return 0;
 }
