@@ -28,12 +28,13 @@ void solve()
           tot += cnt[j - k];
           cost += (ll)(k) * (ll)y * cnt[j-k];
         }
+        ans = min(ans, cost + (ll)(n - tot) * (ll)x);
         if (tot == n)
         {
           ans = min(ans, cost);
           break;
         }
-        else if (cost + (ll)(n - tot) * (ll)y * (ll)(k) >= cost + (ll)(n-tot) * x)
+        else if (cost + (ll)(n - tot) * (ll)y * (ll)(k + 1) >= cost + (ll)(n-tot) * x)
         {
           break;
         }
