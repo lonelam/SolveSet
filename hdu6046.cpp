@@ -1,18 +1,14 @@
-#define _CRT_SECURE_NO_WARNINGS
-#define _USE_MATH_DEFINES
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
+#define MAX 1000000007
 using namespace std;
-typedef long long ll;
-typedef long double ld;
-const int inf = 0x3f3f3f3f;
-const int maxn = 1000000 + 100;
-int kase  = 1;
-inline unsigned sfr(unsigned h, unsigned x)
-{
-  return h >> x;
+typedef long long LL;
+typedef unsigned long long uLL;
+int cas;
+inline unsigned sfr(unsigned h, unsigned x) {
+    return h >> x;
 }
-int f(ll i, ll j) {
-    ll w = i * 1000000ll + j;
+int f(LL i, LL j) {
+    LL w = i * 1000000ll + j;
     int h = 0;
     for(int k = 0; k < 5; ++k) {
         h += (int) ((w >> (8 * k)) & 255);
@@ -26,14 +22,14 @@ int f(ll i, ll j) {
 }
 char c[1100][1100];
 int a[1100][1100];
-ll b[1010][1010];
+LL b[1100][1100];
 const int sz = 7, stride = 550;
 int en;
 struct node
 {
-  ll h;
+  LL h;
   int x, y;
-  bool operator < (const node & e) const
+  bool operator<(const node & e) const
   {
     if (h == e.h)
     {
@@ -48,9 +44,9 @@ struct node
 };
 bool check(int top, int left)
 {
-  for (int i = 0; i < 1000; ++i)
+  for (int i = 0; i < 1000; i++)
   {
-    for (int j = 0; j < 1000; ++j)
+    for (int j = 0; j < 1000; j++)
     {
       if (f(i + top, j + left) != c[i][j])
       {
@@ -59,5 +55,96 @@ bool check(int top, int left)
     }
   }
   en = 1;
-
+  printf("Case #%d :%d %d\n", cas, top, left);
+  return true;
+}
+vector<node> v;
+int main()
+{
+  int T;
+  scanf("%d", &T);
+  for (cas = 1; cas <= T; cas++)
+  {
+    memset(a,0,sizeof a);
+    memset(b, 0, sizeof b);
+    for (int i = 0; i < 1000; i++)
+    {
+      scanf("%s", c[i]);
+      for (int j = 0; j < 1000; j++)
+      {
+        c[i][j] -= '0';
+      }
+      LL x = 0;
+      for (int j = 0; j < sz; ++j)
+      {
+        x = (x << 1) + c[i][j];
+      }
+      for (int j = 0; j <= 1000 - sz; ++j)
+      {
+        a[i][j] = x;
+        x = (x << 1) + c[i][j + sz];
+        x -= c[i][j] << sz;
+      }
+    }
+    for (int j = 0; j <= 1000 - sz; ++j)
+    {
+      LL x = 0;
+      for (int i = 0; i < sz; ++i)
+      {
+        x = (x << sz) + a[i][j];
+      }
+      for (int i = 0; i <= 1000 - sz; ++i)
+      {
+        b[i][j] = x;
+        x = (x << sz) + a[i + sz][j];
+        x -= 1LL * a[i][j] << (sz * sz);
+      }
+    }
+    v.clear();
+    node tmp;
+    for (int i = 0; i <= 1000 - sz; ++i)
+    {
+      for (int j = 0; j <= 1000 - sz; ++j)
+      {
+        tmp.h = b[i][j];
+        tmp.x = i;
+        tmp.y = j;
+        v.push_back(tmp);
+      }
+    }
+    sort(v.begin(), v.end());
+    en = 0;
+    for (int i = 1; i <= 1000001 - sz; i+= stride)
+    {
+      if (en == 1) break;
+      for (int j = 1; j <= 1000001 - sz; j+= stride)
+      {
+        if (en == 1) break;
+        LL x = 0;
+        for (int ii = 0; ii < sz; ++ii)
+        {
+          for (int jj = 0; jj < sz; ++jj)
+          {
+            x = (x << 1) + f(i + ii, j + jj);
+          }
+        }
+        auto it = lower_bound(v.begin(), v.end(), node({x, 0, 0}));
+        for (; it != v.end() && it->h == x; ++it)
+        {
+          LL y = 0;
+          for (int ii = 0; ii < sz; ++ii)
+          {
+            for (int jj = 0; jj < sz; ++jj)
+            {
+              y = (y << 1) + c[ii + it->x][jj + it->y];
+            }
+          }
+          if (check(i - it->x, j - it->y))
+          {
+            break;
+          }
+        }
+      }
+    }
+  }
 }
