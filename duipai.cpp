@@ -1,32 +1,82 @@
-#define _USE_MATH_DEFINES
-#include <bits/stdc++.h>
+
+#include<iostream>
+#include<algorithm>
+#include<stack>
+#include<queue>
+#include<cstdio>
+#include<cctype>
+#include<sstream>
+#include<string>
+#include<cstring>
+#include<deque>
+#include<map>
+#include<set>
+#include<vector>
+#include<list>
+#include<cmath>
+#include<ctime>
+#include<cstdlib>
+#include<fstream>
+#define sf(a) scanf("%lf",&a)
+#define sd1(a) scanf("%d",&a)
+#define sd2(a,b) scanf("%d%d",&a,&b)
+#define sd3(a,b,c) scanf("%d%d%d",&a,&b,&c)
+#define sf(a) scanf("%lf",&a)
+#define sf2(a,b) scanf("%lf%lf",&a,&b)
+#define mp(a,b) make_pair(a,b)
 using namespace std;
 typedef long long ll;
-typedef long double ld;
-const int inf = 0x3f3f3f3f;
-const int maxn = 1 << 20;
-int ans[maxn][20];
-int main()
-{
-  ans[0][1] = ans[1][1] = 1;
-  for (int i = 2; i < 20; i++)
-  {
-    ld ot = 0;
-    for (int s = 0; s < (1 << i); s++)
-    {
-      for (int j = 0; j + 1 < i; j++)
-      {
-        if ((s>>j)&1 && !(s>>(j+1)&1))
-        {
-          int t = (s >> (j+2)<<(j)) | (s % (1<<j));
-          ans[s][i] = ans[t][i-2];
-          cout <<s  << "  "<< t << endl;
-          cin.get();
-        }
-        else ans[s][i] = i;
-      }
-      ot += (ld)ans[s][i] / (ld)(1<<i);
+ll n,k;
+ll ans = 0;
+void solve(int dep, ll remain, ll has, ll org){
+    ll num = remain/has;
+    ll re = remain%has;
+    if(num&1){
+        ans^=org;
+        ans^=(org*k+1);
     }
-    cout << ot << endl;
-  }
+    if(re){
+        ans^=org;
+        ans^=(org+re);
+    }
+    if(dep==1)return;
+    solve(dep-1,remain,has*k,org*k+1);
+}
+int main(){
+//    int pp = 0;
+//    for(int i = 1; i <= 100; i++){
+//        cout << (pp^i)<<endl;
+//        pp^=i;
+//    }
+    int T;
+    cin >> T;
+    while(T--){
+        ans = 0;
+        cin >> n >> k;
+        int h;
+        ll remain = 0;
+        ll all = 0,cur = 1;
+        ll las = 0;
+        for(int i = 0;; i++){
+            if(all>n-cur){h = i;break;}
+            all+=cur;
+            las = cur;
+            cur*=k;
+        }
+        remain = n - all;
+        cur = 1;
+        if(k&1){
+            for(int i = 0; i < h; i++){
+                ans^=cur;
+                cur*=k;
+                cur++;
+            }
+        }else{
+            ans = all;
+        }
+        if(remain&1)ans^=1;
+        solve(h,remain,k,1);
+        printf("%lld\n",ans);
+    }
+    return 0;
 }

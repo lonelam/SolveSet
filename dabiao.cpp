@@ -1,29 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-typedef long double ld;
-const int inf = 0x3f3f3f3f;
-const int maxn = 1000;
-  ll m, p;
-ll p_m(ll base, ll index)
-{
-  ll ret = 1;
-  while(index)
-  {
-    if (index & 1)
-    {
-      ret = (ret * base) % p;
-    }
-    base = (base * base) % p;
-    index >>= 1;
-  }
-  return ret;
-}
+
+int a[10000];
 int main()
 {
-  ll ans = 0;
-  for (int d = 2; d < 100; d++)
-  {
-    cout << d * log10(d) << endl;
-  }
+    for (int i = 0; i < 20; i++)
+    {
+        a[i] = 0;
+    }
+    a[0] =1;
+    for (int j = 0; j < 20; j++)
+    {
+        cout <<a[0]%2 << " ";
+        for (int i = 1; i < 20; i++)
+        {
+            a[i] += a[i-1];
+            cout << a[i]%2 << " ";
+        }
+        cout << endl;
+    }
 }
