@@ -67,9 +67,9 @@ int main()
             indis[fs[p].f] = fs[p].c;
           }
         }
-        inc[i] = cost;
       }
     }
+      inc[i] = cost;
   }
   cost = LLONG_MAX;
   for (int i = maxn-1; i >0; i--)
@@ -104,9 +104,9 @@ int main()
             outdis[fs[p].t] = fs[p].c;
           }
         }
-        outc[i] = cost;
       }
     }
+        outc[i] = cost;
   }
   ll ans = LLONG_MAX;
   for (int i = 1; i + k + 1< maxn; i++)
