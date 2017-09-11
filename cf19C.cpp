@@ -14,6 +14,7 @@ int getOrder(int c)
 }
 int a[maxn], b[maxn];
 vector<int> G[maxn];
+
 int main()
 {
   int n;

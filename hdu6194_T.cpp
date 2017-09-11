@@ -1,27 +1,18 @@
-#include <cstdio>
-#include <cmath>
-#include <iostream>
-#include <algorithm>
-#include <cstring>
-#include <string>
-#include <vector>
-#include <map>
-#include <set>
-#include <functional>
-#include <queue>
-#include <stack>
-#include <deque>
+#define _CRT_SECURE_NO_WARNINGS
+#define _USE_MATH_DEFINES
+#include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
 typedef long double ld;
 const int inf = 0x3f3f3f3f;
-const int maxn = 1000000 + 100;
-const int chsize = 300;
+const int maxn = 100000 + 100;
+const int chsize = 256;
 int sa[maxn], cntA[maxn];
 char ch[maxn];
 int rnk[maxn], cntB[maxn], tsa[maxn], height[maxn];
 int A[maxn], B[maxn];
 int n;
+
 void solve()
 {
   for (int i = 0; i < chsize; i++) cntA[i] = 0;
@@ -61,6 +52,19 @@ void solve()
     height[rnk[i]] = j;
   }
 }
+int f[maxn][20];
+void rmq(int *a)
+{
+    for(int i=1;i<=n;i++)f[i][0]=a[i];
+    for(int j=1;1<<j<n;j++)for(int i=1;i<=n;i++)
+    if(i+(1<<j)-1<=n)f[i][j]=min(f[i][j-1],f[i+(1<<j-1)][j-1]);
+    else break;
+}
+inline int find(int l,int r)
+{
+    int k=31-__builtin_clz(r-l+1);
+    return min(f[l][k],f[r-(1<<k)+1][k]);
+}
 int main()
 {
   int T;
@@ -74,36 +78,25 @@ int main()
     solve();
     // for (int i = 1; i <= n; i++) cout << height[i] << " ";
     // cout << endl;
+    rmq(height);
     // multiset<int> hset;
-    map<int,int> hset;
     height[1] = height[n + 1] = 0;
-      int ans = 0;
-      int leave;
-    if (k <= n)
+    for (int i = 2; i <= k; i++)
     {
-        for (int i = 2; i <= k; i++)
-        {
-          hset[height[i]]++;
-          // hset.insert(height[i]);
-        }
-        leave = k!=1?min(hset.begin()->first - height[k + 1], hset.begin()->first):((n-sa[k]+1) -height[k+1]);
-        if (leave > 0 && k <= n)
-        {
-          ans += leave;
-        }
-      }
+      // hset.insert(height[i]);
+    }
+    int ans = 0;
+    int leave = find(2, k) - height[k + 1];
+    if (leave > 0 && k <= n)
+    {
+      ans += leave;
+    }
     for (int i = k + 1; i <= n; i++)
     {
-      if ((--hset[height[i-k + 1]])==0)
-      {
-        hset.erase(hset.find(height[i-k+1]));
-      }
       // hset.erase(hset.find(height[i - k + 1]));
-      hset[height[i]]++;
-      if (k != 1)
-      leave = min(hset.begin()->first - height[i - k + 1], hset.begin()->first - height[i + 1]);
-      else
-      leave = (n - sa[i]+1) - max(height[i-k+1],height[i+1]);
+      // hset.insert(height[i]);
+      leave = find(i - k + 2, i) - max(height[i-k+1], height[i + 1]);
+      // leave = min(*hset.begin() - height[i - k + 1], *hset.begin() - height[i + 1]);
       if (leave > 0)
       {
         ans += leave;
