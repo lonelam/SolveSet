@@ -53,7 +53,7 @@ int main()
         {
             if(i+k-1>n)continue;
             int lcp;
-            if(i+1>i+k-1)lcp=n-sa[i];
+            if(i+1>i+k-1) lcp=n-sa[i];
             else lcp=find(i+1,i+k-1);
             lcp-=max(height[i],height[i+k]);
             if(lcp<=0)continue;
