@@ -24,5 +24,15 @@ int main()
       scanf("%d", &tmp);
       A.insert(tmp);
     }
+    for (int x: A)
+    {
+      for (int y: A)
+      {
+        if (x + y <= 1e6)
+        {
+          B.insert(x + y);
+        }
+      }
+    }
   }
 }
