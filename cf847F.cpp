@@ -20,8 +20,10 @@ bool cmp(int lhs, int rhs)
 }
 int get1(int tar)
 {
+  if (n == 1) return 1;
   int rem = m - a;
   int tmp = cnt[s[tar]] + 1;
+  if (k == n) return 1;
   for (int i = tar + 1; i <= k + 1; i++)
   {
     rem -= tmp - cnt[s[i]];
