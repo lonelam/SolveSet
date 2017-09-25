@@ -13,7 +13,7 @@ int cnt[maxn];
 int r[maxn];
 int s[maxn];
 int bound;
-bool cmp(int lhs, int rhs)
+bool cmp(const int lhs, const int rhs)
 {
   if (cnt[lhs] != cnt[rhs]) return cnt[lhs] < cnt[rhs];
   return last[lhs] > last[rhs];
