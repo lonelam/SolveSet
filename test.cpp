@@ -1,13 +1,32 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <bits/stdc++.h>
 using namespace std;
-struct edge
-{
-  int a, b, c;
-};
+int n;
+int a[100];
+bool via[100];
+
 int main()
 {
-  int a, b;
-  scanf("%d%d", &a, &b);
-  printf("%d\n", a + b);
+    cin >> n;
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+    sort(a, a + n);
+    int ans = INT_MAX;
+    do
+    {
+        int cnt = 0;
+        int pre = a[0];
+        for (int i = 0; i < n; i++)
+        {
+                if (__gcd(a[i], pre) != 1)
+                {
+                    pre = 1;
+                    cnt++;
+                }
+                pre *= a[i];
+        }
+        ans = min(ans, cnt);
+    }while(next_permutation(a, a + n));
+    cout << ans << endl;
 }
