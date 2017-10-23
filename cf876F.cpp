@@ -8,59 +8,39 @@ const int inf = 0x3f3f3f3f;
 const int maxn = 200000 + 10;
 vector<int> G[100];
 int last[100];
-int a[maxn];
-set<int> rem, lblb;
+int a[maxn], nex[maxn], pre[maxn];
+map<int,int> H;
 int main()
 {
   int n;
   while(~scanf("%d", &n))
   {
-    ll ans = 0;
-    for (int i = 0; i < n; i++)
+    for (int i = 1; i <= n; i++) scanf("%d", a + i);
+    for (int i = 1; i <= n; i++)
     {
-      scanf("%d", a + i);
+      pre[i] = max(pre[i], H[a[i]]);
+      for (int j = 0; j < 30; j++)
+      {
+        if (a[i] >> j & 1) last[j] = i;
+        else pre[i] = max(pre[i], last[j]);
+      }
+      H[a[i]] = i;
     }
-    memset(last, -1, sizeof(last));
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < 30; i++) last[i] = n+1;
+    for (int i = n; i > 0; i--)
     {
-      int lbrb = -1;
-      for (int j = 0; j < 32; j++)
+      nex[i] = n+1;
+      for (int j = 0; j < 30; j++)
       {
-        if ((a[i] >> j) & 1)
-        {
-          last[j] = i;
-          for (int k : G[j])
-          {
-            if (rem.find(k) != rem.end())
-            {
-              rem.erase(k);
-            }
-          }
-          G[j].clear();
-        }
-        else
-        {
-          lbrb = max(lbrb, last[j]);
-        }
+        if (a[i] >> j & 1) last[j] = i;
+        else nex[i] = min(last[j], nex[i]);
       }
-      if (rem.empty())
-      {
-        ans += lbrb + 1;
-        //cout << i << endl;
-      }
-      else
-      {
-        ans += max(lbrb - *rem.rbegin(), 0);
-      }
-      for (int j = 0; j < 32; j++)
-      {
-        if (!((a[i] >> j) & 1))
-        {
-          G[j].push_back(i);
-        }
-      }
-      rem.insert(i);
     }
-    printf("%lld\n", ans);
+    ll ans = 1LL * n * (n + 1) / 2;
+    for (int i= 1; i <= n; i++)
+    {
+      ans -= 1LL * (i - pre[i]) * (nex[i] - i);
+    }
+    cout << ans << endl;
   }
 }
