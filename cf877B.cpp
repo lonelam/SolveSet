@@ -7,7 +7,6 @@ typedef long double ld;
 const int inf = 0x3f3f3f3f;
 const int maxn = 100000;
 string s;
-int dp[maxn][3];
 int presum[maxn];
 int main()
 {
@@ -15,21 +14,17 @@ int main()
   for (int i = 0; i < s.size(); i++)
   {
     presum[i+1] = presum[i] + (s[i]=='a');
+  //  cout << presum[i+1] << " ";
   }
-  memset(dp, inf, sizeof dp);
-  for (int i = 0; i < s.size(); i++)
+  // cout << endl;
+  int ans = 0;
+  int n = s.size();
+  for (int i = 0; i <= n; i++)
   {
-    dp[i][0] = (i+1 - presum[i+1]);
-    dp[i][1] = min(presum[i+1], dp[i][0]);
-    for (int j = 0; j < i; j++)
+    for (int j = i; j <= n; j++)
     {
-      dp[i][1] = min(dp[i][1], dp[j][0] + (presum[i+1] - presum[j+1]));
+      ans = max(ans, j - i - presum[j] + presum[i] + presum[i] + presum[n] - presum[j]);
     }
   }
-  int ans = presum[s.size()];
-  for (int i = 1; i < s.size(); i++)
-  {
-    ans = min(ans, (int)s.size() - i - presum[s.size()] + presum[i] + dp[i-1][1]);
-  }
-  cout << s.size() - ans << endl;
+  cout << ans << endl;
 }
