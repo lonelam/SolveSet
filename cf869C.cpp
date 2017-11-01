@@ -5,15 +5,4 @@ using namespace std;
 typedef long long ll;
 typedef long double ld;
 const int inf = 0x3f3f3f3f;
-const int maxn = 100000 + 10;
-int T;
-int W, n, m, uT;
-int main()
-{
-  scanf("%d", &uT);
-  while(uT--)
-  {
-    scanf("%d%d%d",&n, &m, &T);
-
-  }
-}
+const int maxn = 100000;
