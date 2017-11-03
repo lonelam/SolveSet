@@ -21,6 +21,7 @@ const int maxn = 100000 + 100;
 typedef long long ll;
 typedef long double ld;
 long long hgcd(long long a, long long b) {
+<<<<<<< HEAD
 	while (a > 0 && b > 0) {
 		a -= b;
 		swap(a, b);
@@ -56,4 +57,24 @@ int main()
 		cout << solve(n) << endl;
 	}
 	system("pause");
+=======
+	long long ret = 0;
+	while (a > 0 && b > 0) {
+		a -= b;
+		swap(a, b);
+		ret++;
+	}
+	return ret;
+}
+int main()
+{
+	int T;
+	scanf("%d", &T);
+	while (T--)
+	{
+		long long n;
+		scanf("%lld", &n);
+
+	}
+>>>>>>> 817eba630853489426811920a70a68f97e50f7d7
 }

@@ -13,15 +13,17 @@ int cnt[maxn];
 int r[maxn];
 int s[maxn];
 int bound;
-bool cmp(int lhs, int rhs)
+bool cmp(const int lhs, const int rhs)
 {
   if (cnt[lhs] != cnt[rhs]) return cnt[lhs] < cnt[rhs];
   return last[lhs] > last[rhs];
 }
 int get1(int tar)
 {
+  if (n == 1) return 1;
   int rem = m - a;
   int tmp = cnt[s[tar]] + 1;
+  if (k == n) return 1;
   for (int i = tar + 1; i <= k + 1; i++)
   {
     rem -= tmp - cnt[s[i]];

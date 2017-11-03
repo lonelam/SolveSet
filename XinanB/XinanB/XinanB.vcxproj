@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-﻿<?xml version="1.0" encoding="utf-8"?>
-=======
 <?xml version="1.0" encoding="utf-8"?>
->>>>>>> 817eba630853489426811920a70a68f97e50f7d7
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -24,12 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-<<<<<<< HEAD
-    <ProjectGuid>{0DC39182-FD4D-49CA-9506-925312045374}</ProjectGuid>
-=======
-    <ProjectGuid>{B5CA1038-0D05-4505-AEA1-5D85F61FFFFB}</ProjectGuid>
->>>>>>> 817eba630853489426811920a70a68f97e50f7d7
-    <RootNamespace>XinanI</RootNamespace>
+    <ProjectGuid>{A8801E31-68FA-4873-A624-0BABCEB5DCEF}</ProjectGuid>
+    <RootNamespace>XinanB</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
