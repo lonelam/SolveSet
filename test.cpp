@@ -6,6 +6,14 @@ bool via[100];
 
 int main()
 {
-  int b = 0;
-  cout << (b+++b) << endl;
+  char name[100];
+  cin >> name;
+  FILE * tmp = stdin;
+  while(freopen(name, "r", stdin) == NULL)
+  {
+    cout << "debug"<< endl;
+    freopen("CON", "r", stdin);
+    cin >> name;
+  }
+  cout << "ok "<<endl;
 }
