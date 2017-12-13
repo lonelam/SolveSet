@@ -1,56 +1,21 @@
-#include<cmath>
-#include<cstring>
-#include<iostream>
+#include <bits/stdc++.h>
 using namespace std;
-const int goal = 437338199;
-const int maxn = 100000;
-bool nprime[maxn] = {true, true};
-void init()
-{
-    memset(nprime, 0, sizeof(nprime));
-    nprime[0] = nprime[1] = true;
-    for (int i = 2; i < maxn; i++)
-    {
-        if (!nprime[i])
-        {
-          //  cout << "debug\n";
-            for (int j = i + i; j < maxn; j += i)
-            {
-                nprime[j] = true;
-            }
-        }
-    }
-//    cout << "debug\n";
-}
-void test()
-{
-    for (int i = 0; i < maxn; i++)
-    {
-        cout << i <<' ' << nprime[i] << endl;
-    }
-}
+
 int main()
 {
-
-    init();
-//test();
-    int n = goal;
-    int i = 2;
-
-    while(i * i <= n)
+    int A, B, N;
+    double m = 0;
+    int mA, mB;
+    cin >> N >> A >> B;
+    for (int x = 1; x <= N; x++)
     {
-       // cout << i << endl;
-       // cout << "debug\n";
-        if (!nprime[i])
+        int y = (A * x - 1) / B;
+        if (static_cast<double>(y) / x > m)
         {
-            //cout << "debug\n";
-            while( n % i == 0)
-            {
-                n /= i;
-                cout << i <<',';
-            }
+            m = double(y) / x;
+            mA = y;
+            mB = x;
         }
-        i++;
     }
-    cout << n << endl;
+    cout << mA << " " << mB << endl;
 }

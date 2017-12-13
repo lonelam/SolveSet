@@ -1,30 +1,16 @@
-#include<iostream>
-#include<algorithm>
+#include <bits/stdc++.h>
 using namespace std;
-const int maxn = 100100;
-int l[maxn], r[maxn];
+
+int t[1000];
 int main()
 {
-	int n;
-	while(cin >> n)
-	{
-		int lp = 0, rp = 0;
-		for (int i = 0; i < n; i++)
-		{
-			cin >> l[i] >> r[i];
-			lp +=l[i] - r[i];
-		}
-		rp = -lp;
-		int ans = 0;
-		int mb = max(rp, lp);
-		for (int i = 0; i < n; i++)
-		{
-			if ( lp + (r[i] - l[i]) * 2 > mb || rp + (l[i] - r[i]) * 2 > mb)
-			{
-				mb = max(lp + (r[i] - l[i]) * 2, rp + (l[i] - r[i]) * 2) ;
-			    ans = i;
-			}
-		}
-	    cout << ans + 1 << endl;
-	}
+    int a, b;
+   // int Array[1000];
+    vector<int> Array = {5, 4, 3, 2, 1, 0};
+    int n;
+    for (int i = 0; i < Array.size(); i++)
+    {
+        cout << Array[i] << endl;
+    }
+
 }
