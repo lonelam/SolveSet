@@ -11,6 +11,6 @@ int main()
 {
   while(cin >> n >> m >> r >> k)
   {
-    
+
   }
-}
+erA.cp
