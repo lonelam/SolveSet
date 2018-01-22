@@ -15,7 +15,7 @@ void add(int a, int b, int val)
     tree[tot].to = b;
     tree[tot].val = val;
     tree[tot].next = head[a];
-    head[a] = tol++;
+    head[a] = tot++;
 }
 int n, s, k;
 void dfs(int root, int f)
@@ -35,4 +35,3 @@ void dfs(int root, int f)
         }
     }
 }
-
