@@ -74,7 +74,7 @@ int main()
 								}
 								for (int ii = 0; ii < 4; ii++)
 								{
-									for (int jj = )
+										for (int jj = )
 								}
 							}
 						}
