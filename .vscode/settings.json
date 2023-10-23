@@ -1,0 +1,7 @@
+{
+    "terminal.external.windowsExec": "C:\\msys64\\usr\\bin\\sh.exe",
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "code-runner.executorMap": {
+        "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt<$dir$fileNameWithoutExt.txt"
+    }
+}

@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}.exe",
+            // "args": ["<", "${fileDirname}/${fileBasenameNoExtension}.txt"],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": true,
+            "internalConsoleOptions": "neverOpen", 
+            "targetArchitecture": "x64",
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\msys64\\usr\\bin\\gdb.exe",
+            // "miDebuggerPath": "C:\\Program Files\\Git\\bin\\gdb.exe",
+            "miDebuggerArgs": "-ex 'run < ${fileDirname}/${fileBasenameNoExtension}.txt'",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: g++.exe build active file"
+        }
+    ]
+}

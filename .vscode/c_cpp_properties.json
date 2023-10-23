@@ -1,0 +1,13 @@
+{
+    "configurations": [
+        {
+            "name": "gcc",
+            "includePath": [],
+            "compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+            "intelliSenseMode": "gcc-x64",
+            "cStandard": "c17",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
